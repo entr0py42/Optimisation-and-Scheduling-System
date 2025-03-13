@@ -57,6 +57,28 @@
             background-color: rgba(0, 0, 0, 0.1); /* Slight contrast for footer */
             color: #222;
         }
+
+        /* Styling for the button */
+        .btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #45a049;
+            }
+
+        /* Styling for the API response */
+        #apiResponse {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +89,38 @@
 
     <div class="content">
         <p>Welcome to your personalized dashboard!</p>
+
+        <!-- Button to fetch API data -->
+        <button class="btn" id="fetchDataBtn">The answer to life, the universe, and everything</button>
+
+        <!-- Placeholder for API response -->
+        <div id="apiResponse"></div>
     </div>
+
+
+    <script>
+        // Handle button click
+        document.getElementById('fetchDataBtn').addEventListener('click', function () {
+            // Fetch data from Flask API
+            fetch('http://127.0.0.1:5000/api/number')  // Adjust this endpoint as needed
+                .then(response => response.json())  // Assuming the API returns JSON
+                .then(data => {
+                    // Extract the 'number' value from the response
+                    const number = data.number;
+
+                    // Display only the number in the 'apiResponse' div
+                    if (number !== undefined) {
+                        document.getElementById('apiResponse').innerHTML = `is: ${number}`;
+                    } else {
+                        document.getElementById('apiResponse').innerHTML = 'No "number" key found in the response.';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('apiResponse').innerHTML = 'Error fetching data.';
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 
 
 </body>
