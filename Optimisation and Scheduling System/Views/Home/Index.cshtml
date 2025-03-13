@@ -1,0 +1,74 @@
+﻿@{
+    // Get the current hour
+    int hour = DateTime.Now.Hour;
+    string timeOfDay;
+
+    // Determine the time of day
+    if (hour < 12)
+    {
+        timeOfDay = "morning";
+    }
+    else if (hour < 18)
+    {
+        timeOfDay = "afternoon";
+    }
+    else
+    {
+        timeOfDay = "evening";
+    }
+
+    // Placeholder for user's surname (Replace with real user data later)
+    string surname = "White";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Greeting</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full height */
+            background-color: #9dbf9e; /* Set background color */
+            margin: 0;
+        }
+
+        .greeting {
+            margin-top: 60px; /* Adjust dynamically based on the navbar height */
+            margin-left: 20px;
+            font-size: 40px;
+            font-weight: bold;
+            color: #333; /* Text color for contrast */
+        }
+
+        .content {
+            flex-grow: 1; /* Pushes the footer down */
+            padding: 20px;
+            color: #222; /* Text color for readability */
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.1); /* Slight contrast for footer */
+            color: #222;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="greeting">
+        Good @timeOfDay, Mr. @surname ☀️🌼
+    </div>
+
+    <div class="content">
+        <p>Welcome to your personalized dashboard!</p>
+    </div>
+
+
+</body>
+</html>
