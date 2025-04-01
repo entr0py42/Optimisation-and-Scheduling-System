@@ -16,6 +16,7 @@ namespace Optimisation_and_Scheduling_System
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            Optimisation_and_Scheduling_System.DataDb.DatabaseInitializer.InitializeDatabase();
         }
     }
 }
