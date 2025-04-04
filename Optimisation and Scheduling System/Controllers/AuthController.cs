@@ -3,6 +3,7 @@ using Optimisation_and_Scheduling_System.Models.Common;
 using Optimisation_and_Scheduling_System.Services;
 using Optimisation_and_Scheduling_System.Services.Interfaces;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Optimisation_and_Scheduling_System.Controllers
 {
@@ -45,9 +46,13 @@ namespace Optimisation_and_Scheduling_System.Controllers
                 return View(model);
             }
 
+            
+            FormsAuthentication.SetAuthCookie(model.Name, false); 
+
             TempData["SuccessMessage"] = "Login successful!";
             return RedirectToAction("Index", "Home");
         }
+
 
         [HttpGet]
         public ActionResult Register() => View();

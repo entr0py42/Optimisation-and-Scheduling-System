@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
 
 namespace Optimisation_and_Scheduling_System
 {
@@ -17,6 +18,10 @@ namespace Optimisation_and_Scheduling_System
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Optimisation_and_Scheduling_System.DataDb.DatabaseInitializer.InitializeDatabase();
+
+            FormsAuthentication.Initialize();
+
+
         }
     }
 }
