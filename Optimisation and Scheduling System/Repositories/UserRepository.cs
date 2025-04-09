@@ -1,5 +1,6 @@
 ﻿using Npgsql;
 using Optimisation_and_Scheduling_System.Repositories.Interfaces;
+using Optimisation_and_Scheduling_System.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -53,6 +54,31 @@ namespace Optimisation_and_Scheduling_System.Repositories
                     return (long)cmd.ExecuteScalar() > 0;
                 }
             }
+        }
+
+        public UserModel GetUser(string name)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var cmd = new NpgsqlCommand("SELECT UserName, HashedPassword, UserRole FROM UserModel WHERE UserName = @name", connection))
+                {
+                    cmd.Parameters.AddWithValue("name", name);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new UserModel
+                            {
+                                UserName = reader.GetString(0),
+                                HashedPassword = reader.GetString(1),
+                                UserRole = reader.GetString(2)
+                            };
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }
