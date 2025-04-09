@@ -62,9 +62,15 @@ namespace Optimisation_and_Scheduling_System.Services
                 string hashed = HashPassword(password);
                 bool valid = _userRepo.ValidateUser(name, hashed);
 
-                return valid
-                    ? AuthResult.Ok()
-                    : AuthResult.Fail("Invalid password.");
+                if (!valid)
+                    return AuthResult.Fail("Invalid password.");
+
+                var user = _userRepo.GetUser(name);
+                return new AuthResult 
+                { 
+                    Success = true,
+                    UserRole = user.UserRole
+                };
             }
             catch (Exception)
             {
