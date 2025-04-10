@@ -85,5 +85,16 @@ namespace Optimisation_and_Scheduling_System.Controllers
 
         [HttpGet]
         public ActionResult Login() => View();
+
+
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+
     }
 }
