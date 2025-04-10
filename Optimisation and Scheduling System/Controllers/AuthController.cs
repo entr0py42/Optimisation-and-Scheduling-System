@@ -2,6 +2,9 @@
 using Optimisation_and_Scheduling_System.Models.Common;
 using Optimisation_and_Scheduling_System.Services;
 using Optimisation_and_Scheduling_System.Services.Interfaces;
+using Optimisation_and_Scheduling_System.Constants;
+using System;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -46,18 +49,52 @@ namespace Optimisation_and_Scheduling_System.Controllers
                 return View(model);
             }
 
-            
-            FormsAuthentication.SetAuthCookie(model.Name, false); 
+            // Create the authentication ticket with the user's role
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
+                1,
+                model.Name,
+                DateTime.Now,
+                DateTime.Now.AddMinutes(30),
+                false,
+                result.UserRole,
+                FormsAuthentication.FormsCookiePath);
+
+            // Encrypt the ticket
+            string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+
+            // Create the cookie
+            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            Response.Cookies.Add(cookie);
 
             TempData["SuccessMessage"] = "Login successful!";
-            return RedirectToAction("Index", "Home");
+            
+            // Redirect based on user role
+            switch (result.UserRole)
+            {
+                case UserRoles.Manager:
+                    return RedirectToAction("Index", "Manager");
+                case UserRoles.Driver:
+                    return RedirectToAction("Index", "Driver");
+                default:
+                    return RedirectToAction("Index", "Home");
+            }
         }
-
 
         [HttpGet]
         public ActionResult Register() => View();
 
         [HttpGet]
         public ActionResult Login() => View();
+
+
+
+        public ActionResult Logout()
+        {
+            FormsAuthentication.SignOut();
+
+            return RedirectToAction("Login", "Auth");
+        }
+
+
     }
 }

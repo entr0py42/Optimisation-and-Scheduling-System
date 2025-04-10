@@ -1,4 +1,5 @@
 ﻿using Npgsql;
+using Optimisation_and_Scheduling_System.Models;
 using Optimisation_and_Scheduling_System.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,44 @@ namespace Optimisation_and_Scheduling_System.Repositories
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public List<DriverModel> GetAllDrivers()
+        {
+            List<DriverModel> drivers = new List<DriverModel>();
+            
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var cmd = new NpgsqlCommand(@"
+                    SELECT Id, Name, DayTimeHours, NighttimeHours, WeekendHours, 
+                           WeekendNightHours, WorkerSince, PaidOffDays, UnpaidOffDays 
+                    FROM DriverModel
+                    ORDER BY Name", connection))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var driver = new DriverModel
+                            {
+                                Id = reader.GetInt32(0),
+                                Name = reader.GetString(1),
+                                DayTimeHours = reader.GetInt32(2),
+                                NighttimeHours = reader.GetInt32(3),
+                                WeekendHours = reader.GetInt32(4),
+                                WeekendNightHours = reader.GetInt32(5),
+                                WorkerSince = reader.GetDateTime(6),
+                                PaidOffDays = reader.GetInt32(7),
+                                UnpaidOffDays = reader.GetInt32(8)
+                            };
+                            drivers.Add(driver);
+                        }
+                    }
+                }
+            }
+            
+            return drivers;
         }
     }
 }

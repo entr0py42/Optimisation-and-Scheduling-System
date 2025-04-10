@@ -3,27 +3,57 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title Optimisation and Scheduling System</title>
+    <title>@ViewBag.Title - Optimisation and Scheduling System</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            @Html.ActionLink("Optimisation and Scheduling System", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
+            @if (User.Identity.IsAuthenticated)
+            {
+                var role = ((FormsIdentity)User.Identity).Ticket.UserData;
+                if (role == "Manager")
+                {
+                    <a href="/manager" class="navbar-brand">Optimisation and Scheduling System</a>
+                }
+                else if (role == "Driver")
+                {
+                    <a href="/driver" class="navbar-brand">Optimisation and Scheduling System</a>
+                }
+            }
+            else
+            {
+                <a href="/" class="navbar-brand">Optimisation and Scheduling System</a>
+            }
+
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li>@Html.ActionLink("Login", "Login", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Register", "Register", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var role = ((FormsIdentity)User.Identity).Ticket.UserData;
+                        if (role == "Manager")
+                        {
+                            <li class="nav-item"><a href="/manager" class="nav-link">Home</a></li>
+                        }
+                        else if (role == "Driver")
+                        {
+                            <li class="nav-item"><a href="/driver" class="nav-link">Home</a></li>
+                        }
+                        <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Logout", "Logout", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">@Html.ActionLink("Login", "Login", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
+                        <li class="nav-item">@Html.ActionLink("Register", "Register", "Auth", new { area = "" }, new { @class = "nav-link" })</li>
+                    }
+
                 </ul>
             </div>
         </div>
