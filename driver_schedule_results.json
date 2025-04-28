@@ -1,0 +1,790 @@
+{
+    "primary_assignments": [
+        {
+            "driver": 1,
+            "week": 1,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 1,
+            "week": 2,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 1,
+            "week": 3,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 1,
+            "week": 4,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 2,
+            "week": 1,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 2,
+            "week": 2,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 2,
+            "week": 3,
+            "route": 5,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 2,
+            "week": 4,
+            "route": 4,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 5,
+            "week": 1,
+            "route": 4,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 5,
+            "week": 2,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 5,
+            "week": 3,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 5,
+            "week": 4,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 6,
+            "week": 1,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 6,
+            "week": 2,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 6,
+            "week": 3,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 6,
+            "week": 4,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 8,
+            "week": 1,
+            "route": 2,
+            "shift": 0,
+            "preference": 4
+        },
+        {
+            "driver": 8,
+            "week": 2,
+            "route": 3,
+            "shift": 1,
+            "preference": 4
+        },
+        {
+            "driver": 8,
+            "week": 3,
+            "route": 2,
+            "shift": 1,
+            "preference": 4
+        },
+        {
+            "driver": 8,
+            "week": 4,
+            "route": 1,
+            "shift": 1,
+            "preference": 4
+        },
+        {
+            "driver": 9,
+            "week": 1,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 9,
+            "week": 2,
+            "route": 5,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 9,
+            "week": 3,
+            "route": 4,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 9,
+            "week": 4,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 10,
+            "week": 1,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 10,
+            "week": 2,
+            "route": 4,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 10,
+            "week": 3,
+            "route": 3,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 10,
+            "week": 4,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 11,
+            "week": 1,
+            "route": 5,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 11,
+            "week": 2,
+            "route": 2,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 11,
+            "week": 3,
+            "route": 1,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 11,
+            "week": 4,
+            "route": 2,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 14,
+            "week": 1,
+            "route": 6,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 14,
+            "week": 2,
+            "route": 5,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 14,
+            "week": 3,
+            "route": 6,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 14,
+            "week": 4,
+            "route": 5,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 15,
+            "week": 1,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 15,
+            "week": 2,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 15,
+            "week": 3,
+            "route": 2,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 15,
+            "week": 4,
+            "route": 3,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 18,
+            "week": 1,
+            "route": 3,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 18,
+            "week": 2,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 18,
+            "week": 3,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 18,
+            "week": 4,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 20,
+            "week": 1,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 20,
+            "week": 2,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 20,
+            "week": 3,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 20,
+            "week": 4,
+            "route": 2,
+            "shift": 0,
+            "preference": 1
+        }
+    ],
+    "backup_assignments": [
+        {
+            "driver": 3,
+            "week": 1,
+            "route": 5,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 3,
+            "week": 1,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 3,
+            "week": 2,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 3,
+            "week": 2,
+            "route": 6,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 3,
+            "week": 3,
+            "route": 2,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 3,
+            "week": 3,
+            "route": 3,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 3,
+            "week": 4,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 3,
+            "week": 4,
+            "route": 2,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 4,
+            "week": 1,
+            "route": 1,
+            "shift": 1,
+            "preference": 3
+        },
+        {
+            "driver": 4,
+            "week": 1,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 4,
+            "week": 2,
+            "route": 4,
+            "shift": 0,
+            "preference": 3
+        },
+        {
+            "driver": 4,
+            "week": 2,
+            "route": 4,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 4,
+            "week": 3,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 4,
+            "week": 3,
+            "route": 5,
+            "shift": 1,
+            "preference": 3
+        },
+        {
+            "driver": 4,
+            "week": 4,
+            "route": 4,
+            "shift": 1,
+            "preference": 3
+        },
+        {
+            "driver": 4,
+            "week": 4,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 1,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 1,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 2,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 2,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 3,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 3,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 4,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 7,
+            "week": 4,
+            "route": 5,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 1,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 1,
+            "route": 3,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 2,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 2,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 3,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 3,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 4,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 12,
+            "week": 4,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 1,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 1,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 2,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 2,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 3,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 3,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 4,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 13,
+            "week": 4,
+            "route": 5,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 16,
+            "week": 1,
+            "route": 4,
+            "shift": 0,
+            "preference": 2
+        },
+        {
+            "driver": 16,
+            "week": 1,
+            "route": 5,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 16,
+            "week": 2,
+            "route": 2,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 16,
+            "week": 2,
+            "route": 5,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 16,
+            "week": 3,
+            "route": 3,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 16,
+            "week": 3,
+            "route": 4,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 16,
+            "week": 4,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 16,
+            "week": 4,
+            "route": 3,
+            "shift": 1,
+            "preference": 2
+        },
+        {
+            "driver": 17,
+            "week": 1,
+            "route": 2,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 1,
+            "route": 4,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 2,
+            "route": 1,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 2,
+            "route": 3,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 3,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 3,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 4,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 17,
+            "week": 4,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 1,
+            "route": 2,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 1,
+            "route": 6,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 2,
+            "route": 1,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 2,
+            "route": 5,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 3,
+            "route": 4,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 3,
+            "route": 6,
+            "shift": 1,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 4,
+            "route": 3,
+            "shift": 0,
+            "preference": 1
+        },
+        {
+            "driver": 19,
+            "week": 4,
+            "route": 5,
+            "shift": 1,
+            "preference": 1
+        }
+    ]
+}
