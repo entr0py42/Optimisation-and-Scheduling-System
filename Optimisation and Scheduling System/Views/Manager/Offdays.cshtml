@@ -1,0 +1,55 @@
+@model IEnumerable<Optimisation_and_Scheduling_System.Models.OffdayRequest>
+
+@{
+    ViewBag.Title = "Off Day Requests";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Off Day Requests</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Req ID</th>
+            <th>Driver ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Reason</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ReqId</td>
+                <td>@item.DriverId</td>
+                <td>@item.StartDate.ToShortDateString()</td>
+                <td>@item.EndDate.ToShortDateString()</td>
+                <td>@item.Reason</td>
+                <td>
+                    @{
+                        string statusText = "";
+                        switch (item.Status)
+                        {
+                            case 1:
+                                statusText = "Approved";
+                                break;
+                            case 0:
+                                statusText = "Rejected";
+                                break;
+                            case -1:
+                                statusText = "Pending";
+                                break;
+                            default:
+                                statusText = "Unknown";
+                                break;
+                        }
+
+                    }
+                    @statusText
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
