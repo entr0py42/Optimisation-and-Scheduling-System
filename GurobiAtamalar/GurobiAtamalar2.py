@@ -81,10 +81,10 @@ for d in drivers:
         model.addConstr(quicksum(x[d, day, r, s] for r in routes for s in range(len(routes[r]['shift_times']))) + y[d, day] == 1,
                         name=f"WorkOrBackup_{d}_{day}")
 
-# 4.3 Backup drivers
+# 4.3 Backup drivers are assigned exactly 2 possible shifts
 for d in drivers:
     for day in days:
-        model.addConstr(quicksum(b[d, day, r, s] for r in routes for s in range(len(routes[r]['shift_times']))) <= 2 * y[d, day],
+        model.addConstr(quicksum(b[d, day, r, s] for r in routes for s in range(len(routes[r]['shift_times']))) == 2 * y[d, day],
                         name=f"BackupTwoShifts_{d}_{day}")
 
 # 4.4 Backup shifts only for backup drivers
@@ -106,17 +106,17 @@ for d in drivers:
 model.setObjective(
     quicksum(
         x[d, day, r, s] * (
-            -preferences[d][day][r][s] * 1000 +   # 1st priority: Preference (lower is better, so higher preference should give a higher score)
-            drivers[d]['performance'] * 100 +       # 2nd priority: Performance (higher is better)
-            drivers[d]['experience_years'] * 10 +   # 3rd priority: Experience (higher is better)
-            (1 if drivers[d]['gender'] == 'F' else 0) * 50  # 4th priority: Gender (bonus for female drivers)
+            drivers[d]['performance'] * 10000 +
+            drivers[d]['experience_years'] * 100 +
+            (1 if drivers[d]['gender'] == 'F' else 0) * 50 -
+            preferences[d][day][r][s] * 10
         )
         for d in drivers for day in days for r in routes for s in range(len(routes[r]['shift_times']))
-    ),
-    GRB.MAXIMIZE  # Maximizing the score (higher is better)
+    )
+    -
+    quicksum(y[d, day] * drivers[d]['performance'] * 100 for d in drivers for day in days),
+    GRB.MAXIMIZE
 )
-
-
 
 # --- 6. SOLVE ---
 
