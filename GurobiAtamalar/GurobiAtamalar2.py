@@ -20,7 +20,7 @@ drivers = {
     13: {'performance': 83, 'experience_years': 7, 'gender': 'F'},
     14: {'performance': 91, 'experience_years': 8, 'gender': 'M'},
     15: {'performance': 87, 'experience_years': 5, 'gender': 'F'},
-    16: {'performance': 82, 'experience_years': 4, 'gender': 'F'},
+    16: {'performance': 82, 'experience_years': 4, 'gender': 'M'},
     17: {'performance': 79, 'experience_years': 10, 'gender': 'F'},
     18: {'performance': 88, 'experience_years': 9, 'gender': 'M'},
     19: {'performance': 85, 'experience_years': 6, 'gender': 'F'},
