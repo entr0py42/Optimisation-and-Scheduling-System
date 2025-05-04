@@ -18,8 +18,8 @@ namespace Optimisation_and_Scheduling_System.Repositories
             {
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
-                    INSERT INTO DriverModel (Name, WorkerSince, DayTimeHours, NighttimeHours, WeekendHours, WeekendNightHours, PaidOffDays, UnpaidOffDays)
-                    VALUES (@name, @since, 0, 0, 0, 0, 0, 0)", connection))
+                    INSERT INTO DriverModel (Name, WorkerSince, DayTimeHours, NighttimeHours, WeekendHours, WeekendNightHours)
+                    VALUES (@name, @since, 0, 0, 0, 0)", connection))
                 {
                     cmd.Parameters.AddWithValue("name", name);
                     cmd.Parameters.AddWithValue("since", workerSince);
@@ -37,7 +37,7 @@ namespace Optimisation_and_Scheduling_System.Repositories
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
                     SELECT Id, Name, DayTimeHours, NighttimeHours, WeekendHours, 
-                           WeekendNightHours, WorkerSince, PaidOffDays, UnpaidOffDays 
+                           WeekendNightHours, WorkerSince 
                     FROM DriverModel
                     ORDER BY Name", connection))
                 {
@@ -53,9 +53,7 @@ namespace Optimisation_and_Scheduling_System.Repositories
                                 NighttimeHours = reader.GetInt32(3),
                                 WeekendHours = reader.GetInt32(4),
                                 WeekendNightHours = reader.GetInt32(5),
-                                WorkerSince = reader.GetDateTime(6),
-                                PaidOffDays = reader.GetInt32(7),
-                                UnpaidOffDays = reader.GetInt32(8)
+                                WorkerSince = reader.GetDateTime(6)
                             };
                             drivers.Add(driver);
                         }

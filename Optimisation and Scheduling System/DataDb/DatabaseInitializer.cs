@@ -18,13 +18,12 @@ namespace Optimisation_and_Scheduling_System.DataDb
             CREATE TABLE IF NOT EXISTS DriverModel (
                 Id SERIAL PRIMARY KEY,
                 Name VARCHAR(255),
+                Gender VARCHAR(1),
                 DayTimeHours INTEGER,
                 NighttimeHours INTEGER,
                 WeekendHours INTEGER,
                 WeekendNightHours INTEGER,
-                WorkerSince TIMESTAMP,
-                PaidOffDays INTEGER,
-                UnpaidOffDays INTEGER
+                WorkerSince TIMESTAMP
             );";
 
                 // Create User table
@@ -36,20 +35,7 @@ namespace Optimisation_and_Scheduling_System.DataDb
             );";
 
 
-                // Off Days Requests tablosu
-                string createOffDaysRequests = @"
-                CREATE TABLE IF NOT EXISTS OffDaysRequests (
-                    ReqId SERIAL PRIMARY KEY,
-                    DriverId INTEGER,
-                    StartDate DATE NOT NULL,
-                    EndDate DATE NOT NULL,
-                    Reason TEXT NOT NULL,
-                    Status INTEGER DEFAULT -1,
-                    CONSTRAINT fk_driver FOREIGN KEY (DriverId)
-                        REFERENCES DriverModel (Id)
-                        ON DELETE CASCADE,
-                    CONSTRAINT status_check CHECK (Status IN (0, 1, -1))
-                );";
+
 
 
 
@@ -58,9 +44,6 @@ namespace Optimisation_and_Scheduling_System.DataDb
                     cmd.ExecuteNonQuery();
 
                 using (var cmd = new NpgsqlCommand(createUser, connection))
-                    cmd.ExecuteNonQuery();
-
-                using (var cmd = new NpgsqlCommand(createOffDaysRequests, connection))
                     cmd.ExecuteNonQuery();
             }
         }

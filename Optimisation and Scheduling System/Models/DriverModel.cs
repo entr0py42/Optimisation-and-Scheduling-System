@@ -11,7 +11,5 @@ namespace Optimisation_and_Scheduling_System.Models
         public int WeekendHours { get; set; }
         public int WeekendNightHours { get; set; }
         public DateTime WorkerSince { get; set; }
-        public int PaidOffDays { get; set; }
-        public int UnpaidOffDays { get; set; }
     }
 }
