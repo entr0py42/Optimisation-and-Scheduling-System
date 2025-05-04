@@ -46,9 +46,9 @@ namespace Optimisation_and_Scheduling_System.Services
 
                 return AuthResult.Ok();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return AuthResult.Fail("Registration failed. Please try again later.");
+                return AuthResult.Fail("Registration failed. Please try again later." + e.ToString() );
             }
         }
 
