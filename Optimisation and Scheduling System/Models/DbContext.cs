@@ -15,7 +15,8 @@ namespace Optimisation_and_Scheduling_System.Models
         {
         }
 
-        public DbSet<OffdayRequest> OffdayRequests { get; set; }
+        
+        
 
     }
 }
