@@ -36,6 +36,25 @@ namespace Optimisation_and_Scheduling_System.DataDb
 
 
 
+                // Create the Line table
+                var createLineTable = @"
+            CREATE TABLE IF NOT EXISTS Line (
+                Id SERIAL PRIMARY KEY,
+                Name VARCHAR(255) NOT NULL,
+                Garage VARCHAR(255)
+            );";
+
+                // Create the LineShift table
+                var createLineShiftTable = @"
+            CREATE TABLE IF NOT EXISTS LineShift (
+                Id SERIAL PRIMARY KEY,
+                LineId INT NOT NULL,
+                ShiftTimeStart TIME NOT NULL, 
+                ShiftTimeEnd TIME NOT NULL, 
+                FOREIGN KEY (LineId) REFERENCES Line(Id) ON DELETE CASCADE
+            );";
+
+
 
 
 
@@ -45,6 +64,16 @@ namespace Optimisation_and_Scheduling_System.DataDb
 
                 using (var cmd = new NpgsqlCommand(createUser, connection))
                     cmd.ExecuteNonQuery();
+
+
+                using (var cmd = new NpgsqlCommand(createLineTable, connection))
+                    cmd.ExecuteNonQuery();
+                
+
+                using (var cmd = new NpgsqlCommand(createLineShiftTable, connection))
+                    cmd.ExecuteNonQuery();
+                
+
             }
         }
     }

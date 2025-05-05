@@ -1,0 +1,37 @@
+﻿@model List<Optimisation_and_Scheduling_System.Models.Line>
+
+@{
+    ViewBag.Title = "Lines";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Lines</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Line ID</th>
+                    <th>Name</th>
+                    <th>Garage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var line in Model)
+                {
+                    <tr>
+                        <td>@line.Id</td>
+                        <td>@line.Name</td>
+                        <td>@line.Garage</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No lines found.</p>
+    }
+</div>

@@ -177,11 +177,15 @@
     <Compile Include="Models\Common\AuthResult.cs" />
     <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\DriverModel.cs" />
+    <Compile Include="Models\LineShiftModel.cs" />
+    <Compile Include="Models\LineModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DriverRepository.cs" />
     <Compile Include="Repositories\Interfaces\IDriverRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ILineRepository.cs" />
     <Compile Include="Repositories\Interfaces\IUserRepository.cs" />
+    <Compile Include="Repositories\LineRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\AuthService.cs" />
     <Compile Include="Services\Interfaces\IAuthService.cs" />
@@ -246,9 +250,13 @@
     <Content Include="Views\Shared\_ErrorMessages.cshtml" />
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="Views\Auth\Register.cshtml" />
+    <Content Include="Views\Manager\ManageLines.cshtml" />
+    <Content Include="Views\Manager\Lines.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ILineRepository\" />
+    <Folder Include="Views\LineModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
