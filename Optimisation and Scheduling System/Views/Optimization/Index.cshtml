@@ -1,0 +1,63 @@
+@{
+    ViewBag.Title = "Driver Scheduling Optimization";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Driver Scheduling Optimization</h2>
+            <p class="lead">Use this tool to generate optimized driver schedules based on driver preferences, performance, and experience.</p>
+            
+            <div class="alert alert-info">
+                <strong>Note:</strong> This feature requires the GurobiAtamalar2.py script. Make sure it's properly set up in the parent directory.
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h4>Available Optimization Tools</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">Driver Scheduling</h5>
+                                    <p class="card-text">Generate optimized weekly schedules for drivers, considering preferences, performance metrics, and experience levels.</p>
+                                    <a href="@Url.Action("RunDriverScheduling", "Optimization")" class="btn btn-primary">Run Optimization</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title">View Previous Results</h5>
+                                    <p class="card-text">View the most recent optimization results if available.</p>
+                                    <a href="@Url.Action("GetResultsJson", "Optimization")" class="btn btn-secondary" target="_blank">View JSON Results</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <h4>How It Works</h4>
+                </div>
+                <div class="card-body">
+                    <p>The optimization engine creates optimal schedules based on the following criteria:</p>
+                    <ul>
+                        <li>Driver preferences for routes and shifts</li>
+                        <li>Driver performance metrics</li>
+                        <li>Driver experience</li>
+                        <li>Gender diversity considerations</li>
+                        <li>Constraints such as maximum weekly hours</li>
+                    </ul>
+                    <p>The system will generate both primary driver assignments and backup driver assignments for each route and shift.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@using System.IO

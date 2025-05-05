@@ -8,6 +8,9 @@ namespace Optimisation_and_Scheduling_System
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            // Disable optimization in development
+            BundleTable.EnableOptimizations = false;
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -19,12 +22,27 @@ namespace Optimisation_and_Scheduling_System
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new Bundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+            // Modified to avoid minification issues
+            var bootstrapBundle = new ScriptBundle("~/bundles/bootstrap");
+            bootstrapBundle.Include("~/Scripts/bootstrap.js");
+            bootstrapBundle.Transforms.Clear();
+            bootstrapBundle.Transforms.Add(new JsTransformer());
+            bundles.Add(bootstrapBundle);
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css",
                       "~/Content/site.css"));
+        }
+    }
+
+    // Custom transformer that doesn't minify
+    public class JsTransformer : IBundleTransform
+    {
+        public void Process(BundleContext context, BundleResponse response)
+        {
+            // This transformer doesn't modify the JavaScript content at all
+            // It just concatenates the files without minification
         }
     }
 }

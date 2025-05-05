@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Security;
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -39,6 +41,9 @@
                         if (role == "Manager")
                         {
                             <li class="nav-item"><a href="/manager" class="nav-link">Home</a></li>
+                            <li class="nav-item">@Html.ActionLink("Lines", "Lines", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li class="nav-item">@Html.ActionLink("Drivers", "GetAllDrivers", "Manager", new { area = "" }, new { @class = "nav-link" })</li>
+                            <li class="nav-item"><a href="@Url.Action("Index", "Optimization")" class="nav-link">Optimization</a></li>
                         }
                         else if (role == "Driver")
                         {
@@ -68,7 +73,8 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    <!-- Include Bootstrap JS without bundling temporarily -->
+    <script src="~/Scripts/bootstrap.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
