@@ -1,37 +1,62 @@
 ﻿@model List<Optimisation_and_Scheduling_System.Models.Line>
 
 @{
-    ViewBag.Title = "Lines";
+    ViewBag.Title = "Lines Management";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container">
-    <h2>Lines</h2>
+    <h2>Manage Lines</h2>
 
-    @if (Model != null && Model.Any())
-    {
-        <table class="table table-striped">
-            <thead>
+    <!-- Form to Add New Line -->
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Add New Line</h4>
+            @using (Html.BeginForm("AddLine", "Manager", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken() <!-- Add anti-forgery token for security -->
+
+                <div class="form-group">
+                    <label for="Name">Line Name</label>
+                    @Html.TextBox("Name", null, new { @class = "form-control", id = "Name" })
+                </div>
+
+                <div class="form-group">
+                    <label for="Garage">Garage</label>
+                    @Html.TextBox("Garage", null, new { @class = "form-control", id = "Garage" })
+                </div>
+
+                <button type="submit" class="btn btn-success">Add Line</button>
+            }
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Display All Lines -->
+    <h3>Existing Lines</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Line Name</th>
+                <th>Garage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model)
+            {
                 <tr>
-                    <th>Line ID</th>
-                    <th>Name</th>
-                    <th>Garage</th>
+                    <td>@line.Name</td>
+                    <td>@line.Garage</td>
+                    <td>
+                        @using (Html.BeginForm("DeleteLine", "Manager", new { id = line.Id }, FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        }
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var line in Model)
-                {
-                    <tr>
-                        <td>@line.Id</td>
-                        <td>@line.Name</td>
-                        <td>@line.Garage</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <p>No lines found.</p>
-    }
+            }
+        </tbody>
+    </table>
 </div>

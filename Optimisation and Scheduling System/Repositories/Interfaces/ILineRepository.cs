@@ -12,5 +12,8 @@ namespace Optimisation_and_Scheduling_System.Repositories.Interfaces
         List<Line> GetAllLines();
         Line GetLineById(int id);
         List<LineShift> GetLineShifts(int lineId);
+
+        void AddLine(Line line);  // Method to add a line
+        void DeleteLine(Line line); // Method to delete a line
     }
 }

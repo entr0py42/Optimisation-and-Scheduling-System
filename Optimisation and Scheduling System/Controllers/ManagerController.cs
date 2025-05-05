@@ -63,5 +63,37 @@ namespace Optimisation_and_Scheduling_System.Controllers
             var lineShifts = _lineRepository.GetLineShifts(lineId);
             return View("LineShifts", lineShifts);  // You need a view named "LineShifts" to display the shifts
         }
+
+
+        // POST: Manager/AddLine
+        [HttpPost]
+        public ActionResult AddLine(Line line)
+        {
+            if (ModelState.IsValid)
+            {
+                // Ensure that the Id is not being manually set
+                line.Id = 0;  // Reset the Id to 0 to ensure it is not set manually
+
+                _lineRepository.AddLine(line);  // Add line to database
+                return RedirectToAction("Lines");  // Redirect to the lines page
+            }
+
+            // If the model is invalid, return to the same page with errors
+            var lines = _lineRepository.GetAllLines();
+            return View("Lines", lines);
+        }
+
+        // POST: Manager/DeleteLine
+        [HttpPost]
+        public ActionResult DeleteLine(int id)
+        {
+            var line = _lineRepository.GetLineById(id);
+            if (line != null)
+            {
+                _lineRepository.DeleteLine(line);  // Delete line from database
+            }
+
+            return RedirectToAction("Lines");  // Redirect to the lines page
+        }
     }
 }

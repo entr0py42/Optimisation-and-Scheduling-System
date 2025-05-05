@@ -30,5 +30,17 @@ namespace Optimisation_and_Scheduling_System.Repositories
         {
             return _context.LineShifts.Where(ls => ls.LineId == lineId).ToList();
         }
+
+        public void AddLine(Line line)
+        {
+            _context.Lines.Add(line);
+            _context.SaveChanges();  // Save the new line to the database
+        }
+
+        public void DeleteLine(Line line)
+        {
+            _context.Lines.Remove(line);
+            _context.SaveChanges();  // Commit the deletion to the database
+        }
     }
 }
