@@ -74,17 +74,44 @@ namespace Optimisation_and_Scheduling_System.Controllers
 
         // GET: Optimization/SchedulingResults
         [Route("SchedulingResults")]
-        public ActionResult SchedulingResults()
+        public async Task<ActionResult> SchedulingResults()
         {
-            // Retrieve the result from TempData
+            OptimizationResultModel result = null;
+            
+            // First try to get results from TempData (if coming from RunDriverScheduling)
             if (TempData["OptimizationResult"] != null)
             {
                 var resultJson = TempData["OptimizationResult"].ToString();
-                var result = JsonConvert.DeserializeObject<OptimizationResultModel>(resultJson);
+                result = JsonConvert.DeserializeObject<OptimizationResultModel>(resultJson);
+            }
+            
+            // If no result in TempData, try to load the latest results from file
+            if (result == null)
+            {
+                try
+                {
+                    var json = await _optimizationService.GetOptimizationResultAsJsonAsync();
+                    if (!json.Contains("error"))
+                    {
+                        result = JsonConvert.DeserializeObject<OptimizationResultModel>(json);
+                        result.Status = "Completed";
+                        result.CreatedAt = DateTime.Now; // Set a timestamp since we don't have the original
+                    }
+                }
+                catch
+                {
+                    // If loading from file fails, result will remain null
+                }
+            }
+            
+            // If we have results, show them
+            if (result != null)
+            {
                 return View(result);
             }
-
-            // If no result is available, redirect to the run optimization page
+            
+            // If no result is available anywhere, redirect to the run optimization page
+            TempData["ErrorMessage"] = "No optimization results available. Please run the optimization first.";
             return RedirectToAction("RunDriverScheduling");
         }
 

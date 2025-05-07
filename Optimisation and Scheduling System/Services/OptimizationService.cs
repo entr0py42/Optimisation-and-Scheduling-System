@@ -11,18 +11,16 @@ namespace Optimisation_and_Scheduling_System.Services
 {
     public class OptimizationService : IOptimizationService
     {
-        private readonly string _pythonExecutablePath;
         private readonly string _gurobiFolderPath;
-        private readonly string _guroiScriptPath;
+        private readonly string _wslBatchPath;
         private readonly string _outputJsonPath;
 
         public OptimizationService()
         {
             // Default paths - adjust these to your environment
-            _pythonExecutablePath = "python"; // Assuming python is in PATH
             _gurobiFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "GurobiAtamalar");
-            _guroiScriptPath = Path.Combine(_gurobiFolderPath, "GurobiAtamalar2.py");
-            _outputJsonPath = Path.Combine(_gurobiFolderPath, "clean_driver_schedule.json");
+            _wslBatchPath = Path.Combine(_gurobiFolderPath, "run_gurobi_wsl.bat");
+            _outputJsonPath = Path.Combine(_gurobiFolderPath, "wsl_driver_schedule.json");
         }
 
         public async Task<OptimizationResultModel> RunDriverSchedulingOptimizationAsync()
@@ -36,25 +34,21 @@ namespace Optimisation_and_Scheduling_System.Services
                         $"Please place the GurobiAtamalar folder with optimization scripts in the parent directory of the application.");
                 }
 
-                // Check if the optimization script exists
-                if (!File.Exists(_guroiScriptPath))
+                // Check if the batch script exists
+                if (!File.Exists(_wslBatchPath))
                 {
-                    throw new Exception($"Optimization script not found at: {_guroiScriptPath}. " +
-                        $"Please ensure GurobiAtamalar2.py is in the correct directory.");
+                    throw new Exception($"WSL batch script not found at: {_wslBatchPath}. " +
+                        $"Please ensure run_gurobi_wsl.bat is in the GurobiAtamalar directory.");
                 }
 
-                // Ensure the output directory exists
-                Directory.CreateDirectory(Path.GetDirectoryName(_outputJsonPath));
-
-                // Create process start info
+                // Create process start info for the batch file
                 var processStartInfo = new ProcessStartInfo
                 {
-                    FileName = _pythonExecutablePath,
-                    Arguments = $"\"{_guroiScriptPath}\"",
+                    FileName = _wslBatchPath,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = true,
+                    CreateNoWindow = false,  // Show window so user can see progress
                     WorkingDirectory = _gurobiFolderPath
                 };
 
@@ -75,7 +69,7 @@ namespace Optimisation_and_Scheduling_System.Services
                     if (process.ExitCode != 0)
                     {
                         var errorBuilder = new StringBuilder();
-                        errorBuilder.AppendLine($"Python optimization script failed with exit code {process.ExitCode}");
+                        errorBuilder.AppendLine($"WSL optimization script failed with exit code {process.ExitCode}");
                         
                         if (!string.IsNullOrEmpty(error))
                         {

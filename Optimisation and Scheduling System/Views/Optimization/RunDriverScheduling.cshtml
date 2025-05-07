@@ -9,8 +9,16 @@
             <p class="lead">Generate an optimized weekly schedule for all drivers and routes.</p>
 
             <div class="alert alert-info">
-                <strong>Note:</strong> This process requires the GurobiAtamalar2.py script to be present in the parent directory.
+                <strong>Note:</strong> This process uses Gurobi in Windows Subsystem for Linux (WSL). A terminal window will appear showing the optimization progress.
             </div>
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-warning">
+                    <h4>Information</h4>
+                    <p>@TempData["ErrorMessage"]</p>
+                </div>
+            }
 
             @if (!ViewData.ModelState.IsValid)
             {
@@ -25,7 +33,7 @@
                     <h4>Optimization Parameters</h4>
                 </div>
                 <div class="card-body">
-                    @using (Html.BeginForm("RunDriverScheduling", "Optimization", FormMethod.Post, new { @class = "form" }))
+                    @using (Html.BeginForm("RunDriverScheduling", "Optimization", FormMethod.Post, new { @class = "form", id = "optimizationForm" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -53,6 +61,13 @@
                                 <i class="fa fa-arrow-left"></i> Back
                             </a>
                         </div>
+                        
+                        <div id="processingStatus" class="mt-3" style="display:none;">
+                            <div class="progress">
+                                <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                            </div>
+                            <p class="text-center mt-2" id="statusMessage">Starting optimization...</p>
+                        </div>
                     }
                 </div>
             </div>
@@ -64,8 +79,40 @@
     <script>
         $(document).ready(function () {
             // Show loading indicator when form is submitted
-            $('form').on('submit', function () {
+            $('#optimizationForm').on('submit', function () {
                 $('#btnRunOptimization').html('<i class="fa fa-spinner fa-spin"></i> Processing...').prop('disabled', true);
+                $('#processingStatus').show();
+                
+                // Start updating progress bar
+                var progress = 0;
+                var progressInterval = setInterval(function() {
+                    progress += 1;
+                    if (progress <= 100) {
+                        $('#progressBar').css('width', progress + '%');
+                        
+                        // Update status message based on progress
+                        if (progress < 20) {
+                            $('#statusMessage').text('Starting WSL environment...');
+                        } else if (progress < 40) {
+                            $('#statusMessage').text('Preparing optimization model...');
+                        } else if (progress < 60) {
+                            $('#statusMessage').text('Running Gurobi solver...');
+                        } else if (progress < 80) {
+                            $('#statusMessage').text('Processing results...');
+                        } else {
+                            $('#statusMessage').text('Finalizing and redirecting...');
+                        }
+                        
+                        // If we reach 100%, redirect to results page
+                        if (progress >= 100) {
+                            clearInterval(progressInterval);
+                            setTimeout(function() {
+                                window.location.href = '@Url.Action("SchedulingResults", "Optimization")';
+                            }, 1000);
+                        }
+                    }
+                }, 300); // Update every 300ms (30 seconds total for 100%)
+                
                 return true;
             });
         });

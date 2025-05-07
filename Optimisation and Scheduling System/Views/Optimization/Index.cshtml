@@ -9,7 +9,7 @@
             <p class="lead">Use this tool to generate optimized driver schedules based on driver preferences, performance, and experience.</p>
             
             <div class="alert alert-info">
-                <strong>Note:</strong> This feature requires the GurobiAtamalar2.py script. Make sure it's properly set up in the parent directory.
+                <strong>Note:</strong> This feature uses Gurobi in Windows Subsystem for Linux (WSL) to run the optimization.
             </div>
             
             <div class="card mt-4">
@@ -32,7 +32,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">View Previous Results</h5>
                                     <p class="card-text">View the most recent optimization results if available.</p>
-                                    <a href="@Url.Action("GetResultsJson", "Optimization")" class="btn btn-secondary" target="_blank">View JSON Results</a>
+                                    <a href="@Url.Action("SchedulingResults", "Optimization")" class="btn btn-secondary">View Schedule Results</a>
                                 </div>
                             </div>
                         </div>
