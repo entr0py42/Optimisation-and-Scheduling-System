@@ -11,22 +11,6 @@ namespace Optimisation_and_Scheduling_System.Repositories
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
 
-        // Create a new driver
-        public void CreateDriver(string name, DateTime workerSince)
-        {
-            using (var connection = new NpgsqlConnection(_connectionString))
-            {
-                connection.Open();
-                using (var cmd = new NpgsqlCommand(@"
-                    INSERT INTO DriverModel (Name, WorkerSince, DayTimeHours, NighttimeHours, WeekendHours, WeekendNightHours)
-                    VALUES (@name, @since, 0, 0, 0, 0)", connection))
-                {
-                    cmd.Parameters.AddWithValue("name", name);
-                    cmd.Parameters.AddWithValue("since", workerSince);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
 
         // Get all drivers from the database
         public List<DriverModel> GetAllDrivers()

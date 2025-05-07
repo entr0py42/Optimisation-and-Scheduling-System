@@ -1,0 +1,394 @@
+{
+    "assignments": {
+        "Day_1": {
+            "Route_4Shift0": [
+                {
+                    "driver": 2,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 13,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_2": {
+            "Route_4Shift0": [
+                {
+                    "driver": 2,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 13,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_3": {
+            "Route_4Shift0": [
+                {
+                    "driver": 13,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 12,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_4": {
+            "Route_4Shift0": [
+                {
+                    "driver": 13,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 12,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_5": {
+            "Route_4Shift0": [
+                {
+                    "driver": 2,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 14,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_6": {
+            "Route_4Shift0": [
+                {
+                    "driver": 12,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 14,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_7": {
+            "Route_4Shift0": [
+                {
+                    "driver": 14,
+                    "preference": 7
+                }
+            ],
+            "Route_4Shift1": [
+                {
+                    "driver": 12,
+                    "preference": 7
+                }
+            ]
+        }
+    },
+    "backups": {
+        "Day_1": {
+            "Driver_12": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_14": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_2": {
+            "Driver_12": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_14": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_3": {
+            "Driver_2": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_14": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_4": {
+            "Driver_2": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_14": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_5": {
+            "Driver_12": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_13": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_6": {
+            "Driver_2": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_13": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        },
+        "Day_7": {
+            "Driver_2": [
+                {
+                    "route": 4,
+                    "shift": 0,
+                    "preference": 7
+                }
+            ],
+            "Driver_13": [
+                {
+                    "route": 4,
+                    "shift": 1,
+                    "preference": 7
+                }
+            ]
+        }
+    },
+    "preferences_matrix": {
+        "Driver_2": {
+            "Day_1": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_2": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_3": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_4": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_5": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_6": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_7": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            }
+        },
+        "Driver_12": {
+            "Day_1": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_2": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_3": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_4": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_5": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_6": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_7": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            }
+        },
+        "Driver_13": {
+            "Day_1": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_2": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_3": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_4": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_5": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_6": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_7": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            }
+        },
+        "Driver_14": {
+            "Day_1": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_2": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_3": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_4": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_5": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_6": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            },
+            "Day_7": {
+                "Route_4": {
+                    "Shift_0": 7,
+                    "Shift_1": 7
+                }
+            }
+        }
+    }
+}

@@ -41,7 +41,6 @@ namespace Optimisation_and_Scheduling_System.Services
 
                 string hashed = HashPassword(password);
 
-                _driverRepo.CreateDriver(name, DateTime.UtcNow);
                 _userRepo.CreateUser(name, hashed, UserRoles.Driver);
 
                 return AuthResult.Ok();
