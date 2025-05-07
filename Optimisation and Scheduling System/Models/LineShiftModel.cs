@@ -16,6 +16,7 @@ namespace Optimisation_and_Scheduling_System.Models
         public TimeSpan ShiftTimeStart { get; set; }
         public TimeSpan ShiftTimeEnd { get; set; }
 
+        public int Day { get; set; }
         public bool IsDayShift { get; set; }
 
         // Navigation property

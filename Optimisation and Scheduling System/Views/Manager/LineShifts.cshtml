@@ -3,17 +3,40 @@
     ViewBag.Title = "Line Shifts";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int? lineId = ViewBag.LineId as int?;
+    var dayNames = new[] { "", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 }
 
 <div class="container">
     <h2>Shifts for Line: <strong>@ViewBag.LineName</strong></h2>
 
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (Model.Any(s => s.Day == 1)) // Monday = 1
+    {
+        using (Html.BeginForm("CopyMondayShiftsToWeek", "Manager", FormMethod.Post))
+        {
+            @Html.Hidden("lineId", lineId)
+            <button type="submit" class="btn btn-warning mb-3">
+                Copy Monday Shifts to Rest of the Week
+            </button>
+        }
+    }
+
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
+                <th>Day</th>
                 <th>Start Time</th>
                 <th>End Time</th>
-                <th>Shift Type</th> <!-- New column for Shift Type -->
+                <th>Shift Type</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -21,19 +44,10 @@
             @foreach (var shift in Model)
             {
                 <tr>
+                    <td>@dayNames[shift.Day]</td>
                     <td>@shift.ShiftTimeStart.ToString(@"hh\:mm")</td>
                     <td>@shift.ShiftTimeEnd.ToString(@"hh\:mm")</td>
-                    <td>
-                        <!-- Display Day or Night shift based on IsDayShift value -->
-                        @if (shift.IsDayShift)
-                        {
-                            <span>Day Shift</span>
-                        }
-                        else
-                        {
-                            <span>Night Shift</span>
-                        }
-                    </td>
+                    <td>@(shift.IsDayShift ? "Day Shift" : "Night Shift")</td>
                     <td>
                         @using (Html.BeginForm("DeleteLineShift", "Manager", FormMethod.Post))
                         {
@@ -50,8 +64,18 @@
     <h4>Add New Shift</h4>
     @using (Html.BeginForm("AddLineShift", "Manager", FormMethod.Post))
     {
-        @Html.HiddenFor(x => lineId)
-        <input type="hidden" name="LineId" value="@lineId" />
+        @Html.Hidden("LineId", lineId)
+
+        <div class="form-group">
+            <label>Day</label>
+            <select name="Day" class="form-control" required>
+                <option value="">-- Select Day --</option>
+                @for (int i = 1; i <= 7; i++)
+                {
+                    <option value="@i">@dayNames[i]</option>
+                }
+            </select>
+        </div>
 
         <div class="form-group">
             <label>Start Time</label>
@@ -63,10 +87,9 @@
             <input type="time" name="ShiftTimeEnd" class="form-control" required />
         </div>
 
-        <!-- Checkbox to choose if the shift is a day shift -->
         <div class="form-group">
-            <label>Is Day Shift</label>
-            <input type="checkbox" name="IsDayShift" value="true" /> <!-- True for day shift -->
+            <label>Is Day Shift</label><br />
+            <input type="checkbox" name="IsDayShift" value="true" /> Yes
         </div>
 
         <button type="submit" class="btn btn-primary mt-2">Add Shift</button>

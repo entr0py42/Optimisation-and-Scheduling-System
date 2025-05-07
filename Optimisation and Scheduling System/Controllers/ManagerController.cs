@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Optimisation_and_Scheduling_System.Models;
 using Optimisation_and_Scheduling_System.Repositories;
@@ -131,6 +132,47 @@ namespace Optimisation_and_Scheduling_System.Controllers
         {
             _lineRepository.DeleteLineShift(id);
             return RedirectToAction("LineShifts", new { lineId });
+        }
+
+
+        [HttpPost]
+        public ActionResult CopyMondayShiftsToWeek(int lineId)
+        {
+            using (var db = new AppDbContext())
+            {
+                var mondayShifts = db.LineShifts
+                    .Where(s => s.LineId == lineId && s.Day == 1)
+                    .ToList();
+
+                if (!mondayShifts.Any())
+                {
+                    TempData["Error"] = "No Monday shifts to copy.";
+                    // Pass lineId in the redirect to avoid missing parameter
+                    return RedirectToAction("LineShifts", new { lineId = lineId });
+                }
+
+                for (int day = 2; day <= 7; day++) // Tuesday to Sunday
+                {
+                    foreach (var shift in mondayShifts)
+                    {
+                        var newShift = new LineShift
+                        {
+                            LineId = shift.LineId,
+                            ShiftTimeStart = shift.ShiftTimeStart,
+                            ShiftTimeEnd = shift.ShiftTimeEnd,
+                            IsDayShift = shift.IsDayShift,
+                            Day = day
+                        };
+                        db.LineShifts.Add(newShift);
+                    }
+                }
+
+                db.SaveChanges();
+            }
+
+            TempData["Success"] = "Monday shifts copied to the rest of the week.";
+            // Pass lineId in the redirect to avoid missing parameter
+            return RedirectToAction("LineShifts", new { lineId = lineId });
         }
 
 

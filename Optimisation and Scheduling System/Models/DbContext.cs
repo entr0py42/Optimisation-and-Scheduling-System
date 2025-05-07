@@ -37,6 +37,8 @@ namespace Optimisation_and_Scheduling_System.Models
             modelBuilder.Entity<LineShift>()
                 .Property(x => x.ShiftTimeEnd).HasColumnName("shifttimeend");
             modelBuilder.Entity<LineShift>()
+                .Property(x => x.Day).HasColumnName("day");
+                        modelBuilder.Entity<LineShift>()
                 .Property(x => x.IsDayShift).HasColumnName("isdayshift");
 
             // Configure DriverModel entity mappings

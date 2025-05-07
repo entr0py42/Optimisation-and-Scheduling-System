@@ -51,6 +51,7 @@ namespace Optimisation_and_Scheduling_System.DataDb
                 LineId INT NOT NULL,
                 ShiftTimeStart TIME NOT NULL, 
                 ShiftTimeEnd TIME NOT NULL,
+                Day INT NOT NULL,
                 IsDayShift BOOLEAN NOT NULL,
                 FOREIGN KEY (LineId) REFERENCES Line(Id) ON DELETE CASCADE
             );";
