@@ -7,6 +7,7 @@ using System;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using Optimisation_and_Scheduling_System.Models;
 
 namespace Optimisation_and_Scheduling_System.Controllers
 {
@@ -26,6 +27,7 @@ namespace Optimisation_and_Scheduling_System.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
+            // Register the user first
             AuthResult result = _authService.Register(model.Name, model.Password);
             if (!result.Success)
             {
@@ -33,9 +35,26 @@ namespace Optimisation_and_Scheduling_System.Controllers
                 return View(model);
             }
 
+            // Now create the DriverModel record, including gender
+            var driver = new DriverModel
+            {
+                Name = model.Name,
+                Gender = model.Gender, // Ensure gender is passed from the view
+                WorkerSince = DateTime.Now
+                // Add other necessary fields like DayTimeHours, NighttimeHours, etc.
+            };
+
+            // Save the DriverModel
+            using (var context = new AppDbContext()) // Assuming AppDbContext is used for database operations
+            {
+                context.DriverModels.Add(driver);
+                context.SaveChanges();
+            }
+
             TempData["SuccessMessage"] = "Registration successful! Please login.";
             return RedirectToAction("Login");
         }
+
 
         [HttpPost]
         public ActionResult Login(LoginModel model)

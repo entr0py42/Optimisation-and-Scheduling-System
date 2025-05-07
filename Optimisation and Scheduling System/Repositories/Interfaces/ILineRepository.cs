@@ -15,5 +15,9 @@ namespace Optimisation_and_Scheduling_System.Repositories.Interfaces
 
         void AddLine(Line line);  // Method to add a line
         void DeleteLine(Line line); // Method to delete a line
+
+        void AddLineShift(LineShift shift);
+        void DeleteLineShift(int id);
+
     }
 }

@@ -42,5 +42,22 @@ namespace Optimisation_and_Scheduling_System.Repositories
             _context.Lines.Remove(line);
             _context.SaveChanges();  // Commit the deletion to the database
         }
+
+        public void AddLineShift(LineShift shift)
+        {
+            _context.LineShifts.Add(shift);
+            _context.SaveChanges();
+        }
+
+        public void DeleteLineShift(int id)
+        {
+            var shift = _context.LineShifts.Find(id);
+            if (shift != null)
+            {
+                _context.LineShifts.Remove(shift);
+                _context.SaveChanges();
+            }
+        }
+
     }
 }

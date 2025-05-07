@@ -95,5 +95,44 @@ namespace Optimisation_and_Scheduling_System.Controllers
 
             return RedirectToAction("Lines");  // Redirect to the lines page
         }
+
+
+
+        // View all shifts for a line
+        public ActionResult LineShifts(int lineId)
+        {
+            var line = _lineRepository.GetLineById(lineId);
+            if (line == null) return HttpNotFound();
+
+            ViewBag.LineName = line.Name;
+            var shifts = _lineRepository.GetLineShifts(lineId);
+            return View("LineShifts", shifts);
+        }
+
+
+        // Add a shift
+        [HttpPost]
+        public ActionResult AddLineShift(LineShift shift)
+        {
+            if (ModelState.IsValid)
+            {
+                _lineRepository.AddLineShift(shift);
+                return RedirectToAction("LineShifts", new { lineId = shift.LineId });
+            }
+
+            ViewBag.LineId = shift.LineId;
+            var shifts = _lineRepository.GetLineShifts(shift.LineId);
+            return View("LineShifts", shifts);
+        }
+
+        // Delete a shift
+        [HttpPost]
+        public ActionResult DeleteLineShift(int id, int lineId)
+        {
+            _lineRepository.DeleteLineShift(id);
+            return RedirectToAction("LineShifts", new { lineId });
+        }
+
+
     }
 }
