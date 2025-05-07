@@ -178,6 +178,8 @@
     <Compile Include="Models\Common\AuthResult.cs" />
     <Compile Include="Models\DbContext.cs" />
     <Compile Include="Models\DriverModel.cs" />
+    <Compile Include="Models\DriverPreferenceViewModel.cs" />
+    <Compile Include="Models\DriverPreference.cs" />
     <Compile Include="Models\LineShiftModel.cs" />
     <Compile Include="Models\LineModel.cs" />
     <Compile Include="Models\UserModel.cs" />
@@ -260,6 +262,7 @@
     <Content Include="Views\Optimization\RunDriverScheduling.cshtml" />
     <Content Include="Views\Optimization\SchedulingResults.cshtml" />
     <Content Include="Views\Manager\LineShifts.cshtml" />
+    <Content Include="Views\Driver\Preferences.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

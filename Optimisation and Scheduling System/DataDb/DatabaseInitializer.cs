@@ -57,6 +57,17 @@ namespace Optimisation_and_Scheduling_System.DataDb
             );";
 
 
+                // Create DriverPreference table
+                var createDriverPreferenceTable = @"
+            CREATE TABLE IF NOT EXISTS DriverPreferences (
+                DriverId INT NOT NULL,
+                ShiftId INT NOT NULL,
+                PreferenceOrder INT NOT NULL,
+                PRIMARY KEY (DriverId, ShiftId),
+                FOREIGN KEY (DriverId) REFERENCES DriverModel(Id) ON DELETE CASCADE,
+                FOREIGN KEY (ShiftId) REFERENCES LineShift(Id) ON DELETE CASCADE
+            );";
+
 
 
 
@@ -74,7 +85,11 @@ namespace Optimisation_and_Scheduling_System.DataDb
 
                 using (var cmd = new NpgsqlCommand(createLineShiftTable, connection))
                     cmd.ExecuteNonQuery();
-                
+
+                using (var cmd = new NpgsqlCommand(createDriverPreferenceTable, connection))
+                    cmd.ExecuteNonQuery();
+
+
 
             }
         }

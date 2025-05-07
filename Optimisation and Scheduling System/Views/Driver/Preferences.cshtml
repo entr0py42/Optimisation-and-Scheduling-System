@@ -1,0 +1,28 @@
+@model Optimisation_and_Scheduling_System.Models.DriverPreferencesViewModel
+
+@{
+    ViewBag.Title = "Driver Preferences";
+}
+
+<h2>Set Your Shift Preferences</h2>
+
+@using (Html.BeginForm("SavePreferences", "Driver", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.DriverId)
+
+    <div>
+        @for (int i = 0; i < 7; i++)
+        {
+            <div class="form-group">
+                <label>Preference @(i + 1)</label>
+
+                @Html.DropDownListFor(model => model.ShiftPreferences[i],
+                              new SelectList(Model.AvailableShifts, "Id", "DisplayText"),
+                              "-- Select a Shift --",
+                              new { @class = "form-control" })
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Preferences</button>
+}

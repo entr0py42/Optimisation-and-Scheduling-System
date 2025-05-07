@@ -21,6 +21,23 @@ namespace Optimisation_and_Scheduling_System.Models
 
         // Navigation property
         public Line Line { get; set; }
+
+
+        [NotMapped]
+        public string DisplayText
+        {
+            get
+            {
+                string dayString = GetDayName(Day);
+                string shiftType = IsDayShift ? "Day" : "Night";
+                return $"{dayString} | {ShiftTimeStart:hh\\:mm} - {ShiftTimeEnd:hh\\:mm} ({shiftType})";
+            }
+        }
+
+        private string GetDayName(int day)
+        {
+            return Enum.GetName(typeof(DayOfWeek), day % 7) ?? $"Day {day}";
+        }
     }
 
 }

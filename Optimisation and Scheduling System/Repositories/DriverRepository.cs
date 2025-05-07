@@ -4,14 +4,14 @@ using Optimisation_and_Scheduling_System.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
 
 namespace Optimisation_and_Scheduling_System.Repositories
 {
-	public class DriverRepository : IDriverRepository
+    public class DriverRepository : IDriverRepository
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
+
+        // Create a new driver
         public void CreateDriver(string name, DateTime workerSince)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
@@ -28,10 +28,11 @@ namespace Optimisation_and_Scheduling_System.Repositories
             }
         }
 
+        // Get all drivers from the database
         public List<DriverModel> GetAllDrivers()
         {
             List<DriverModel> drivers = new List<DriverModel>();
-            
+
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
@@ -60,8 +61,100 @@ namespace Optimisation_and_Scheduling_System.Repositories
                     }
                 }
             }
-            
+
             return drivers;
+        }
+
+        // Get the preferences of a specific driver
+        public DriverPreference GetDriverPreferences(int driverId)
+        {
+            DriverPreference preferences = null;
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var cmd = new NpgsqlCommand(@"
+                    SELECT ShiftId, PreferenceOrder
+                    FROM DriverPreferences
+                    WHERE DriverId = @driverId
+                    ORDER BY PreferenceOrder", connection))
+                {
+                    cmd.Parameters.AddWithValue("driverId", driverId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        preferences = new DriverPreference { DriverId = driverId, ShiftPreferences = new List<int>() };
+                        while (reader.Read())
+                        {
+                            preferences.ShiftPreferences.Add(reader.GetInt32(0)); // Add shift ID to the preferences list
+                        }
+                    }
+                }
+            }
+
+            return preferences;
+        }
+
+        // Save or update the preferences for a specific driver
+        public void SaveDriverPreferences(DriverPreference preference)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+
+                // Delete existing preferences
+                using (var cmd = new NpgsqlCommand("DELETE FROM DriverPreferences WHERE DriverId = @driverId", connection))
+                {
+                    cmd.Parameters.AddWithValue("driverId", preference.DriverId);
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Insert new preferences
+                foreach (var shiftId in preference.ShiftPreferences)
+                {
+                    using (var cmd = new NpgsqlCommand(@"
+                        INSERT INTO DriverPreferences (DriverId, ShiftId, PreferenceOrder)
+                        VALUES (@driverId, @shiftId, @preferenceOrder)", connection))
+                    {
+                        cmd.Parameters.AddWithValue("driverId", preference.DriverId);
+                        cmd.Parameters.AddWithValue("shiftId", shiftId);
+                        cmd.Parameters.AddWithValue("preferenceOrder", preference.ShiftPreferences.IndexOf(shiftId) + 1); // Assign preference order
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
+
+        // Get available line shifts (this assumes there is a LineShifts table)
+        public List<LineShift> GetAvailableLineShifts()
+        {
+            List<LineShift> shifts = new List<LineShift>();
+
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                connection.Open();
+                using (var cmd = new NpgsqlCommand(@"
+                    SELECT Id, Day, ShiftTimeStart, ShiftTimeEnd, IsDayShift
+                    FROM LineShift", connection))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var shift = new LineShift
+                            {
+                                Id = reader.GetInt32(0),
+                                Day = reader.GetInt32(1),
+                                ShiftTimeStart = reader.GetTimeSpan(2),
+                                ShiftTimeEnd = reader.GetTimeSpan(3),
+                                IsDayShift = reader.GetBoolean(4)
+                            };
+                            shifts.Add(shift);
+                        }
+                    }
+                }
+            }
+
+            return shifts;
         }
     }
 }
