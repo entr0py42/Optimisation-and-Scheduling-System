@@ -16,10 +16,12 @@
             <div class="form-group">
                 <label>Preference @(i + 1)</label>
 
-                @Html.DropDownListFor(model => model.ShiftPreferences[i],
-                              new SelectList(Model.AvailableShifts, "Id", "DisplayText"),
-                              "-- Select a Shift --",
-                              new { @class = "form-control" })
+                @Html.DropDownList(
+                         $"ShiftPreferences[{i}]", // input name for model binding
+                         new SelectList(Model.AvailableShifts, "Id", "DisplayText",
+                             Model.ShiftPreferences.Count > i ? Model.ShiftPreferences[i] : (int?)null),
+                         "-- Select a Shift --",
+                         new { @class = "form-control" })
             </div>
         }
     </div>

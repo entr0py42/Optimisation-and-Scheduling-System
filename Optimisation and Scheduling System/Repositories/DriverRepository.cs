@@ -127,14 +127,15 @@ namespace Optimisation_and_Scheduling_System.Repositories
         // Get available line shifts (this assumes there is a LineShifts table)
         public List<LineShift> GetAvailableLineShifts()
         {
-            List<LineShift> shifts = new List<LineShift>();
+            var shifts = new List<LineShift>();
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
-                    SELECT Id, Day, ShiftTimeStart, ShiftTimeEnd, IsDayShift
-                    FROM LineShift", connection))
+            SELECT ls.Id, ls.Day, ls.ShiftTimeStart, ls.ShiftTimeEnd, ls.IsDayShift, ls.LineId, l.Name
+            FROM LineShift ls
+            INNER JOIN Line l ON ls.LineId = l.Id", connection))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -146,7 +147,13 @@ namespace Optimisation_and_Scheduling_System.Repositories
                                 Day = reader.GetInt32(1),
                                 ShiftTimeStart = reader.GetTimeSpan(2),
                                 ShiftTimeEnd = reader.GetTimeSpan(3),
-                                IsDayShift = reader.GetBoolean(4)
+                                IsDayShift = reader.GetBoolean(4),
+                                LineId = reader.GetInt32(5),
+                                Line = new Line
+                                {
+                                    Id = reader.GetInt32(5), // same as LineId
+                                    Name = reader.GetString(6)
+                                }
                             };
                             shifts.Add(shift);
                         }
@@ -156,5 +163,6 @@ namespace Optimisation_and_Scheduling_System.Repositories
 
             return shifts;
         }
+
     }
 }

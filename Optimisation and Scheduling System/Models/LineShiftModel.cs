@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace Optimisation_and_Scheduling_System.Models
 {
@@ -22,15 +18,16 @@ namespace Optimisation_and_Scheduling_System.Models
         // Navigation property
         public Line Line { get; set; }
 
-
+        // Not mapped to DB, used for display in dropdowns
         [NotMapped]
         public string DisplayText
         {
             get
             {
+                string lineName = Line?.Name ?? "Unknown Line";
                 string dayString = GetDayName(Day);
                 string shiftType = IsDayShift ? "Day" : "Night";
-                return $"{dayString} | {ShiftTimeStart:hh\\:mm} - {ShiftTimeEnd:hh\\:mm} ({shiftType})";
+                return $"{lineName} | {dayString} | {ShiftTimeStart:hh\\:mm} - {ShiftTimeEnd:hh\\:mm} ({shiftType})";
             }
         }
 
@@ -39,5 +36,4 @@ namespace Optimisation_and_Scheduling_System.Models
             return Enum.GetName(typeof(DayOfWeek), day % 7) ?? $"Day {day}";
         }
     }
-
 }
