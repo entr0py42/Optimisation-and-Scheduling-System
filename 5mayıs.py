@@ -152,24 +152,27 @@ for d in drivers:
     model.addConstr(total_shifts[d] >= min_shifts, name=f"MinBound_{d}")
 
 # Farkı max 5 ile sınırla (istediğine göre değiştir)
-model.addConstr(max_shifts - min_shifts <= 5, name="MaxMinGap")
+#model.addConstr(max_shifts - min_shifts <= 5, name="MaxMinGap")
 
 
 
 # --- 5. OBJECTIVE FUNCTION ---
 
-model.setObjective(
-    quicksum(
-        x[d, day, r, s] * (
-            -preferences[d][day][r][s] * 1000 +   # 1st priority: Preference (lower is better, so higher preference should give a higher score)
-            drivers[d]['performance'] * 100 +       # 2nd priority: Performance (higher is better)
-            drivers[d]['experience_years'] * 10 +   # 3rd priority: Experience (higher is better)
-            (1 if drivers[d]['gender'] == 'F' else 0) * 50  # 4th priority: Gender (bonus for female drivers)
-        )
-        for d in drivers for day in days for r in routes for s in range(len(routes[r]['shift_times']))
-    ),
-    GRB.MAXIMIZE  # Maximizing the score (higher is better)
+primary_objective = quicksum(
+    x[d, day, r, s] * (
+        -preferences[d][day][r][s] * 1000 +
+        drivers[d]['performance'] * 100 +
+        drivers[d]['experience_years'] * 10 +
+        (1 if drivers[d]['gender'] == 'F' else 0) * 50
+    )
+    for d in drivers for day in days for r in routes for s in range(len(routes[r]['shift_times']))
 )
+
+# New soft fairness term (penalty on imbalance)
+fairness_penalty = 10000 * (max_shifts - min_shifts)
+
+model.setObjective(primary_objective - fairness_penalty, GRB.MAXIMIZE)
+
 
 
 
