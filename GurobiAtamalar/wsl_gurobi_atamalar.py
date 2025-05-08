@@ -138,7 +138,20 @@ model.setObjective(primary_objective + backup_objective - fairness_penalty, GRB.
 
 # --- 6. SOLVE ---
 
-model.optimize()
+try:
+    model.optimize()
+    if model.status == GRB.Status.OPTIMAL:
+        print("\n✅ Optimal solution found.\n")
+    elif model.status == GRB.Status.INFEASIBLE:
+        print("\n Infeasible. Writing IIS to 'model.ilp'...")
+        model.computeIIS()
+        model.write("model.ilp")
+    else:
+        print(f"\n Status: {model.status}")
+except Exception as e:
+    print(f"\n Error during optimization: {e}")
+
+
 
 # Print assignments
 print("\n=== Primary Driver Assignments ===\n")
