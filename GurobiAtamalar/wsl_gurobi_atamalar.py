@@ -89,7 +89,7 @@ def get_preference(d, shift_id):
 
 primary_objective = quicksum(
     x[d, day, r, s] * (
-        (7 - get_preference(d, index_to_shift_id[(day, r, s)])) * 1000 +
+        (7 - get_preference(d, index_to_shift_id[(day, r, s)])) * 100000 +
         drivers[d]['performance'] * 500 +
         drivers[d]['experience_years'] * 100 +
         (1 if drivers[d]['gender'] == 'F' else 0) * 50
@@ -99,7 +99,7 @@ primary_objective = quicksum(
 
 backup_objective = 2 * quicksum(
     b[d, day, r, s] * (
-        (7 - get_preference(d, index_to_shift_id[(day, r, s)])) * -10000 +
+        (7 - get_preference(d, index_to_shift_id[(day, r, s)])) * 100000 +
         drivers[d]['performance'] * 500 +
         drivers[d]['experience_years'] * 100 +
         (1 if drivers[d]['gender'] == 'F' else 0) * 50
@@ -107,7 +107,7 @@ backup_objective = 2 * quicksum(
     for d in drivers for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))
 )
 
-fairness_penalty = 400 * (max_shifts - min_shifts)
+fairness_penalty = 1000000 * (max_shifts - min_shifts)
 
 model.setObjective(primary_objective + backup_objective - fairness_penalty, GRB.MAXIMIZE)
 
