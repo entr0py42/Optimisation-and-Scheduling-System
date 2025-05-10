@@ -21,8 +21,7 @@ namespace Optimisation_and_Scheduling_System.Repositories
             {
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
-                    SELECT Id, Name, DayTimeHours, NighttimeHours, WeekendHours, 
-                           WeekendNightHours, WorkerSince 
+                    SELECT Id, Name, Gender, WorkerSince
                     FROM DriverModel
                     ORDER BY Name", connection))
                 {
@@ -34,11 +33,9 @@ namespace Optimisation_and_Scheduling_System.Repositories
                             {
                                 Id = reader.GetInt32(0),
                                 Name = reader.GetString(1),
-                                DayTimeHours = reader.GetInt32(2),
-                                NighttimeHours = reader.GetInt32(3),
-                                WeekendHours = reader.GetInt32(4),
-                                WeekendNightHours = reader.GetInt32(5),
-                                WorkerSince = reader.GetDateTime(6)
+                                Gender = reader.GetString(2),
+
+                                WorkerSince = reader.GetDateTime(3)
                             };
                             drivers.Add(driver);
                         }

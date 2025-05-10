@@ -41,7 +41,7 @@ namespace Optimisation_and_Scheduling_System.Controllers
                 Name = model.Name,
                 Gender = model.Gender, // Ensure gender is passed from the view
                 WorkerSince = DateTime.Now
-                // Add other necessary fields like DayTimeHours, NighttimeHours, etc.
+
             };
 
             // Save the DriverModel

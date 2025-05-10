@@ -49,14 +49,6 @@ namespace Optimisation_and_Scheduling_System.Models
             modelBuilder.Entity<DriverModel>()
                 .Property(x => x.Gender).HasColumnName("gender");
             modelBuilder.Entity<DriverModel>()
-                .Property(x => x.DayTimeHours).HasColumnName("daytimehours");
-            modelBuilder.Entity<DriverModel>()
-                .Property(x => x.NighttimeHours).HasColumnName("nighttimehours");
-            modelBuilder.Entity<DriverModel>()
-                .Property(x => x.WeekendHours).HasColumnName("weekendhours");
-            modelBuilder.Entity<DriverModel>()
-                .Property(x => x.WeekendNightHours).HasColumnName("weekendnighthours");
-            modelBuilder.Entity<DriverModel>()
                 .Property(x => x.WorkerSince).HasColumnName("workersince");
 
             // Map entities to tables

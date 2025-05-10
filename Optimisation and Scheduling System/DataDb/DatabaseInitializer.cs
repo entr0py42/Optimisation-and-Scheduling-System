@@ -19,10 +19,6 @@ namespace Optimisation_and_Scheduling_System.DataDb
                 Id SERIAL PRIMARY KEY,
                 Name VARCHAR(255),
                 Gender VARCHAR(1),
-                DayTimeHours INTEGER,
-                NighttimeHours INTEGER,
-                WeekendHours INTEGER,
-                WeekendNightHours INTEGER,
                 WorkerSince TIMESTAMP
             );";
 
