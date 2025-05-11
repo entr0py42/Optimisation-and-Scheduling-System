@@ -1,6 +1,6 @@
 # Optimization & Scheduling System
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 A powerful web-based system built with **ASP.NET MVC** to solve complex **driver scheduling problems** using optimization techniques. Designed for **both driver & manager-level users**, it integrates optimization logic, data persistence, and intuitive results presentation in a clean, extensible architecture.
@@ -53,6 +53,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/entr0py42"><img src="https://avatars.githubusercontent.com/u/60400979?v=4?s=100" width="100px;" alt="entr0py42"/><br /><sub><b>entr0py42</b></sub></a><br /><a href="https://github.com/entr0py42/Optimisation-and-Scheduling-System/commits?author=entr0py42" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/aycaslan"><img src="https://avatars.githubusercontent.com/u/203072266?v=4?s=100" width="100px;" alt="aycaslan"/><br /><sub><b>aycaslan</b></sub></a><br /><a href="https://github.com/entr0py42/Optimisation-and-Scheduling-System/commits?author=aycaslan" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/AcarKaan78"><img src="https://avatars.githubusercontent.com/u/107004516?v=4?s=100" width="100px;" alt="AcsharKhan"/><br /><sub><b>AcsharKhan</b></sub></a><br /><a href="https://github.com/entr0py42/Optimisation-and-Scheduling-System/commits?author=AcarKaan78" title="Code">💻</a></td>
     </tr>
   </tbody>
   <tfoot>
