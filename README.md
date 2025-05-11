@@ -3,6 +3,8 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+## Introduction
+
 A powerful web-based system built with **ASP.NET MVC** to solve complex **driver scheduling problems** using optimization techniques. Designed for **both driver & manager-level users**, it integrates optimization logic, data persistence, and intuitive results presentation in a clean, extensible architecture.
 
 ---
