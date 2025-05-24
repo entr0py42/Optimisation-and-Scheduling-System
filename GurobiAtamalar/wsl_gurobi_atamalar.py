@@ -24,6 +24,20 @@ for r in routes:
         for idx, shift_id in enumerate(shift_ids):
             index_to_shift_id[(day, r, idx)] = shift_id
 
+# After loading all data but before optimization, add:
+print("\n--- Input Data Analysis ---")
+print(f"Number of drivers: {len(drivers)}")
+print(f"Number of routes: {len(routes)}")
+
+total_shifts = 0
+for r in routes:
+    for day in days:
+        total_shifts += len(routes[r]['shifts_by_day'][day])
+print(f"Total shifts across all days: {total_shifts}")
+print(f"Total shifts per day: {total_shifts/7:.1f}")
+print(f"Required drivers per day (including backups): {(total_shifts/7)*2:.1f}")
+print("-------------------------\n")
+
 # --- 2. MODEL ---
 
 model = Model("DriverScheduling")
@@ -115,54 +129,69 @@ model.setObjective(primary_objective + backup_objective - fairness_penalty, GRB.
 
 try:
     model.optimize()
+    
     if model.status == GRB.Status.OPTIMAL:
         print("\n✅ Optimal solution found.\n")
-    elif model.status == GRB.Status.INFEASIBLE:
-        print("\n❌ Infeasible. Writing IIS to 'model.ilp'...")
-        model.computeIIS()
-        model.write("model.ilp")
-    else:
-        print(f"\n⚠️ Status: {model.status}")
-except Exception as e:
-    print(f"\n🚫 Error during optimization: {e}")
+        
+        results = {"assignments": {}, "backups": {}, "preferences_matrix": {}}
 
-# --- 7. BUILD RESULTS ---
-
-results = {"assignments": {}, "backups": {}, "preferences_matrix": {}}
-
-for day in days:
-    results["assignments"][f"Day_{day}"] = {}
-    for r in routes:
-        for s in range(len(routes[r]['shifts_by_day'][day])):
-            shift_id = index_to_shift_id[(day, r, s)]
-            assigned_drivers = [d for d in drivers if x[d, day, r, s].X > 0.5]
-            results["assignments"][f"Day_{day}"][f"Route_{r}Shift{shift_id}"] = [
-                {"driver": d, "preference": get_preference(d, shift_id)} for d in assigned_drivers
-            ]
-
-    results["backups"][f"Day_{day}"] = {}
-    for d in drivers:
-        if y[d, day].X > 0.5:
-            assigned_backups = []
+        for day in days:
+            results["assignments"][f"Day_{day}"] = {}
             for r in routes:
                 for s in range(len(routes[r]['shifts_by_day'][day])):
-                    if b[d, day, r, s].X > 0.5:
+                    shift_id = index_to_shift_id[(day, r, s)]
+                    assigned_drivers = [d for d in drivers if x[d, day, r, s].X > 0.5]
+                    results["assignments"][f"Day_{day}"][f"Route_{r}Shift{shift_id}"] = [
+                        {"driver": d, "preference": get_preference(d, shift_id)} for d in assigned_drivers
+                    ]
+
+            results["backups"][f"Day_{day}"] = {}
+            for d in drivers:
+                if y[d, day].X > 0.5:
+                    assigned_backups = []
+                    for r in routes:
+                        for s in range(len(routes[r]['shifts_by_day'][day])):
+                            if b[d, day, r, s].X > 0.5:
+                                shift_id = index_to_shift_id[(day, r, s)]
+                                assigned_backups.append({"route": r, "shift": shift_id, "preference": get_preference(d, shift_id)})
+                    if assigned_backups:
+                        results["backups"][f"Day_{day}"][f"Driver_{d}"] = assigned_backups
+
+        for d in drivers:
+            results["preferences_matrix"][f"Driver_{d}"] = {}
+            for day in days:
+                results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"] = {}
+                for r in routes:
+                    results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"][f"Route_{r}"] = {}
+                    for s in range(len(routes[r]['shifts_by_day'][day])):
                         shift_id = index_to_shift_id[(day, r, s)]
-                        assigned_backups.append({"route": r, "shift": shift_id, "preference": get_preference(d, shift_id)})
-            if assigned_backups:
-                results["backups"][f"Day_{day}"][f"Driver_{d}"] = assigned_backups
+                        results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"][f"Route_{r}"][f"Shift_{s}"] = get_preference(d, shift_id)
 
-for d in drivers:
-    results["preferences_matrix"][f"Driver_{d}"] = {}
-    for day in days:
-        results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"] = {}
-        for r in routes:
-            results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"][f"Route_{r}"] = {}
-            for s in range(len(routes[r]['shifts_by_day'][day])):
-                shift_id = index_to_shift_id[(day, r, s)]
-                results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"][f"Route_{r}"][f"Shift_{s}"] = get_preference(d, shift_id)
+        with open("clean2_driver_schedule.json", "w") as f:
+            json.dump(results, f, indent=4)
 
-with open("clean2_driver_schedule.json", "w") as f:
-    json.dump(results, f, indent=4)
-
-print("✅ Schedule created and saved as 'clean2_driver_schedule.json'.")
+        print("✅ Schedule created and saved as 'clean2_driver_schedule.json'.")
+        
+    elif model.status == GRB.Status.INFEASIBLE:
+        print("\n❌ Model is infeasible. Computing and displaying IIS (Irreducible Inconsistent Subsystem)...")
+        model.computeIIS()
+        print("\nConstraints in the IIS:")
+        for c in model.getConstrs():
+            if c.IISConstr:
+                print(f"Constraint {c.ConstrName}: {c.Sense} {c.RHS}")
+        
+        print("\nVariables in the IIS:")
+        for v in model.getVars():
+            if v.IISLB:
+                print(f'Lower bound: {v.VarName} >= {v.LB}')
+            if v.IISUB:
+                print(f'Upper bound: {v.VarName} <= {v.UB}')
+                
+        model.write("infeasible_model.ilp")
+        print("\nDetailed model information written to 'infeasible_model.ilp'")
+    else:
+        print(f"\n⚠️ Optimization ended with status: {model.status}")
+        
+except Exception as e:
+    print(f"\n🚫 Error during optimization: {str(e)}")
+    raise

@@ -1,0 +1,62 @@
+@{
+    ViewBag.Title = "Run Driver Scheduling Optimization";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Run Driver Scheduling Optimization</h2>
+            <p class="lead">Start the optimization process to generate driver schedules.</p>
+
+            @if (!string.IsNullOrEmpty(TempData["ErrorMessage"]?.ToString()))
+            {
+                <div class="alert alert-danger">
+                    @TempData["ErrorMessage"]
+                </div>
+            }
+
+            @using (Html.BeginForm("RunDriverScheduling", "Optimization", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="card">
+                    <div class="card-body">
+                        <p>This will:</p>
+                        <ul>
+                            <li>Generate optimal driver assignments for all routes and shifts</li>
+                            <li>Consider driver preferences and performance metrics</li>
+                            <li>Create backup driver assignments</li>
+                            <li>Ensure fair distribution of shifts</li>
+                        </ul>
+
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> The optimization process may take a few minutes to complete.
+                        </div>
+
+                        <div class="form-group text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-play"></i> Start Optimization
+                            </button>
+                            <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg ml-2">
+                                <i class="fas fa-arrow-left"></i> Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('form').on('submit', function () {
+                // Disable the submit button and show loading state
+                $(this).find('button[type="submit"]')
+                    .prop('disabled', true)
+                    .html('<i class="fas fa-spinner fa-spin"></i> Processing...');
+            });
+        });
+    </script>
+} 

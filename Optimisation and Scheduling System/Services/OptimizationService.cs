@@ -12,15 +12,38 @@ namespace Optimisation_and_Scheduling_System.Services
     public class OptimizationService : IOptimizationService
     {
         private readonly string _gurobiFolderPath;
-        private readonly string _wslBatchPath;
+        private readonly string _pythonScriptPath;
         private readonly string _outputJsonPath;
+        private readonly string _pythonPath;
 
         public OptimizationService()
         {
-            // Default paths - adjust these to your environment
-            _gurobiFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "GurobiAtamalar");
-            _wslBatchPath = Path.Combine(_gurobiFolderPath, "run_gurobi_wsl.bat");
-            _outputJsonPath = Path.Combine(_gurobiFolderPath, "wsl_driver_schedule.json");
+            // Get the solution directory path
+            var currentDir = AppDomain.CurrentDomain.BaseDirectory;
+            var projectDir = Directory.GetParent(currentDir).FullName;
+            var solutionDir = Directory.GetParent(projectDir).FullName;
+            
+            // Set paths relative to the solution directory
+            _gurobiFolderPath = Path.Combine(solutionDir, "GurobiAtamalar");
+            _pythonScriptPath = Path.Combine(_gurobiFolderPath, "GurobiAtamalar2.py");
+            _outputJsonPath = Path.Combine(_gurobiFolderPath, "optimized_schedule.json");
+
+            // Set Python path from virtual environment
+            _pythonPath = Path.Combine(solutionDir, ".venv", "Scripts", "python.exe");
+            if (!File.Exists(_pythonPath))
+            {
+                // Fallback to venv directory if .venv doesn't exist
+                _pythonPath = Path.Combine(solutionDir, "venv", "Scripts", "python.exe");
+            }
+
+            // Log the paths for debugging
+            System.Diagnostics.Debug.WriteLine($"Current Directory: {currentDir}");
+            System.Diagnostics.Debug.WriteLine($"Project Directory: {projectDir}");
+            System.Diagnostics.Debug.WriteLine($"Solution Directory: {solutionDir}");
+            System.Diagnostics.Debug.WriteLine($"Gurobi Folder Path: {_gurobiFolderPath}");
+            System.Diagnostics.Debug.WriteLine($"Python Script Path: {_pythonScriptPath}");
+            System.Diagnostics.Debug.WriteLine($"Output JSON Path: {_outputJsonPath}");
+            System.Diagnostics.Debug.WriteLine($"Python Path: {_pythonPath}");
         }
 
         public async Task<OptimizationResultModel> RunDriverSchedulingOptimizationAsync()
@@ -30,81 +53,148 @@ namespace Optimisation_and_Scheduling_System.Services
                 // Check if the GurobiAtamalar directory exists
                 if (!Directory.Exists(_gurobiFolderPath))
                 {
-                    throw new Exception($"Gurobi directory not found at: {_gurobiFolderPath}. " +
-                        $"Please place the GurobiAtamalar folder with optimization scripts in the parent directory of the application.");
+                    throw new Exception($"Gurobi directory not found at: {_gurobiFolderPath}");
                 }
 
-                // Check if the batch script exists
-                if (!File.Exists(_wslBatchPath))
+                // Check if the Python script exists
+                if (!File.Exists(_pythonScriptPath))
                 {
-                    throw new Exception($"WSL batch script not found at: {_wslBatchPath}. " +
-                        $"Please ensure run_gurobi_wsl.bat is in the GurobiAtamalar directory.");
+                    throw new Exception($"Python script not found at: {_pythonScriptPath}");
                 }
 
-                // Create process start info for the batch file
+                // Check if Python exists
+                if (!File.Exists(_pythonPath))
+                {
+                    throw new Exception($"Python not found at: {_pythonPath}. Please ensure Python is installed in the virtual environment.");
+                }
+
+                // Delete existing output file if it exists
+                if (File.Exists(_outputJsonPath))
+                {
+                    File.Delete(_outputJsonPath);
+                }
+
+                // Create process start info for the Python script
                 var processStartInfo = new ProcessStartInfo
                 {
-                    FileName = _wslBatchPath,
+                    FileName = _pythonPath,
+                    Arguments = $"\"{_pythonScriptPath}\"", // Quote the path to handle spaces
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
                     UseShellExecute = false,
-                    CreateNoWindow = false,  // Show window so user can see progress
+                    CreateNoWindow = true,
                     WorkingDirectory = _gurobiFolderPath
                 };
+
+                var result = new OptimizationResultModel();
+                result.Status = "Running optimization...";
 
                 // Start the process
                 using (var process = new Process())
                 {
                     process.StartInfo = processStartInfo;
-                    process.Start();
+                    var outputBuilder = new StringBuilder();
+                    var errorBuilder = new StringBuilder();
 
-                    // Read output and error asynchronously
-                    var output = await process.StandardOutput.ReadToEndAsync();
-                    var error = await process.StandardError.ReadToEndAsync();
-                    
-                    // Wait for the process to exit
-                    await Task.Run(() => process.WaitForExit());
+                    // Set up output handling
+                    process.OutputDataReceived += (sender, e) =>
+                    {
+                        if (!string.IsNullOrEmpty(e.Data))
+                        {
+                            outputBuilder.AppendLine(e.Data);
+                            System.Diagnostics.Debug.WriteLine($"Python Output: {e.Data}");
+                        }
+                    };
+
+                    process.ErrorDataReceived += (sender, e) =>
+                    {
+                        if (!string.IsNullOrEmpty(e.Data))
+                        {
+                            errorBuilder.AppendLine(e.Data);
+                            System.Diagnostics.Debug.WriteLine($"Python Error: {e.Data}");
+                        }
+                    };
+
+                    // Start the process and begin reading output
+                    process.Start();
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+
+                    // Wait for the process to exit with a timeout
+                    bool processExited = await Task.Run(() => process.WaitForExit(300000)); // 5-minute timeout
+
+                    if (!processExited)
+                    {
+                        try { process.Kill(); } catch { }
+                        throw new Exception("Optimization process timed out after 5 minutes.");
+                    }
 
                     // Check if the process completed successfully
                     if (process.ExitCode != 0)
                     {
-                        var errorBuilder = new StringBuilder();
-                        errorBuilder.AppendLine($"WSL optimization script failed with exit code {process.ExitCode}");
+                        var error = errorBuilder.ToString();
+                        var output = outputBuilder.ToString();
+                        
+                        var message = new StringBuilder();
+                        message.AppendLine($"Optimization script failed with exit code {process.ExitCode}");
                         
                         if (!string.IsNullOrEmpty(error))
                         {
-                            errorBuilder.AppendLine("Error details:");
-                            errorBuilder.AppendLine(error);
+                            message.AppendLine("Error output:");
+                            message.AppendLine(error);
+                        }
+                        
+                        if (!string.IsNullOrEmpty(output))
+                        {
+                            message.AppendLine("Standard output:");
+                            message.AppendLine(output);
                         }
 
-                        throw new Exception(errorBuilder.ToString());
+                        throw new Exception(message.ToString());
                     }
 
-                    // Parse JSON output if the process completed successfully
+                    // Check if output file exists and parse it
                     if (File.Exists(_outputJsonPath))
                     {
-                        // Using File.ReadAllText for .NET Framework compatibility
+                        // Wait briefly to ensure file is fully written
+                        await Task.Delay(100);
+                        
                         string json = await Task.Run(() => File.ReadAllText(_outputJsonPath));
-                        var result = JsonConvert.DeserializeObject<OptimizationResultModel>(json);
+                        result = JsonConvert.DeserializeObject<OptimizationResultModel>(json);
                         result.Status = "Completed";
+                        result.CreatedAt = DateTime.Now;
                         return result;
                     }
                     else
                     {
-                        throw new FileNotFoundException(
-                            "Output JSON file not found after optimization process completed. " +
-                            $"Expected location: {_outputJsonPath}");
+                        var output = outputBuilder.ToString();
+                        var error = errorBuilder.ToString();
+                        
+                        var message = new StringBuilder();
+                        message.AppendLine($"Output JSON file not found at: {_outputJsonPath}");
+                        
+                        if (!string.IsNullOrEmpty(output))
+                        {
+                            message.AppendLine("Process output:");
+                            message.AppendLine(output);
+                        }
+                        
+                        if (!string.IsNullOrEmpty(error))
+                        {
+                            message.AppendLine("Process errors:");
+                            message.AppendLine(error);
+                        }
+
+                        throw new Exception(message.ToString());
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Handle errors and return incomplete result
-                var errorResult = new OptimizationResultModel
+                return new OptimizationResultModel
                 {
                     Status = $"Error: {ex.Message}"
                 };
-                return errorResult;
             }
         }
 

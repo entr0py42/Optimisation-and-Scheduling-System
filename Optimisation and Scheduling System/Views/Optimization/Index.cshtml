@@ -9,7 +9,7 @@
             <p class="lead">Use this tool to generate optimized driver schedules based on driver preferences, performance, and experience.</p>
             
             <div class="alert alert-info">
-                <strong>Note:</strong> This feature uses Gurobi in Windows Subsystem for Linux (WSL) to run the optimization.
+                <strong>Note:</strong> This feature uses the Gurobi optimization engine to create optimal schedules.
             </div>
             
             <div class="card mt-4">
@@ -53,7 +53,12 @@
                         <li>Gender diversity considerations</li>
                         <li>Constraints such as maximum weekly hours</li>
                     </ul>
-                    <p>The system will generate both primary driver assignments and backup driver assignments for each route and shift.</p>
+                    <p>The system will generate:</p>
+                    <ul>
+                        <li>Primary driver assignments for each route and shift</li>
+                        <li>Backup driver assignments with their preferences</li>
+                        <li>Schedule statistics and optimization metrics</li>
+                    </ul>
                 </div>
             </div>
         </div>

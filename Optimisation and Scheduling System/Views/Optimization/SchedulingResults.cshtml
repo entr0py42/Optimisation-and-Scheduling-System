@@ -1,0 +1,168 @@
+@model Optimisation_and_Scheduling_System.Models.OptimizationResultModel
+
+@{
+    ViewBag.Title = "Optimization Results";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Driver Scheduling Results</h2>
+            <p class="text-muted">Generated on: @Model.CreatedAt.ToString("f")</p>
+
+            @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+            {
+                <div class="alert alert-success">
+                    @ViewBag.SuccessMessage
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Status))
+            {
+                <div class="alert @(Model.Status.StartsWith("Error") ? "alert-danger" : "alert-success")">
+                    @Model.Status
+                </div>
+            }
+
+            <!-- Schedule Info -->
+            @if (Model.ScheduleInfo != null)
+            {
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0">Schedule Overview</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Total Drivers: @Model.ScheduleInfo.TotalDrivers</p>
+                        <p>Total Routes: @Model.ScheduleInfo.TotalRoutes</p>
+                        <p>Days Planned: @Model.ScheduleInfo.DaysPlanned</p>
+                    </div>
+                </div>
+            }
+
+            <!-- Daily Assignments -->
+            @if (Model.Assignments != null)
+            {
+                foreach (var dayKvp in Model.Assignments)
+                {
+                    <div class="card mb-4">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="mb-0">@dayKvp.Key.Replace("_", " ")</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Route & Shift</th>
+                                            <th>Driver</th>
+                                            <th>Preference</th>
+                                            <th>Performance</th>
+                                            <th>Experience (Years)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var routeKvp in dayKvp.Value)
+                                        {
+                                            <tr>
+                                                <td>@routeKvp.Key.Replace("_", " ")</td>
+                                                <td>@routeKvp.Value.DriverName</td>
+                                                <td>
+                                                    @{
+                                                        string preferenceClass = "text-warning";
+                                                        if (routeKvp.Value.Preference <= 2)
+                                                        {
+                                                            preferenceClass = "text-success";
+                                                        }
+                                                        else if (routeKvp.Value.Preference >= 6)
+                                                        {
+                                                            preferenceClass = "text-danger";
+                                                        }
+                                                    }
+                                                    <span class="@preferenceClass">@routeKvp.Value.Preference</span>
+                                                </td>
+                                                <td>@routeKvp.Value.Performance%</td>
+                                                <td>@routeKvp.Value.Experience</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <!-- Backup Assignments -->
+            @if (Model.Backups != null)
+            {
+                foreach (var dayKvp in Model.Backups)
+                {
+                    <div class="card mb-4">
+                        <div class="card-header bg-secondary text-white">
+                            <h4 class="mb-0">Backup Drivers - @dayKvp.Key.Replace("_", " ")</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Driver</th>
+                                            <th>Backup Assignments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var driverKvp in dayKvp.Value)
+                                        {
+                                            <tr>
+                                                <td>@driverKvp.Value.DriverName</td>
+                                                <td>
+                                                    <ul class="list-unstyled mb-0">
+                                                        @foreach (var assignment in driverKvp.Value.BackupAssignments)
+                                                        {
+                                                            <li>
+                                                                Route @assignment.Route - Shift @assignment.ShiftId
+                                                                @{
+                                                                    string prefClass = "text-warning";
+                                                                    if (assignment.Preference <= 2)
+                                                                    {
+                                                                        prefClass = "text-success";
+                                                                    }
+                                                                    else if (assignment.Preference >= 6)
+                                                                    {
+                                                                        prefClass = "text-danger";
+                                                                    }
+                                                                }
+                                                                <span class="@prefClass">(Preference: @assignment.Preference)</span>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            <div class="text-center mt-4 mb-4">
+                <a href="@Url.Action("RunDriverScheduling")" class="btn btn-primary btn-lg">
+                    <i class="fas fa-sync"></i> Run New Optimization
+                </a>
+                <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg ml-2">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Add any client-side functionality here
+        });
+    </script>
+} 

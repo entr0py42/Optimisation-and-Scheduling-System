@@ -6,7 +6,6 @@ using Optimisation_and_Scheduling_System.Models;
 using Optimisation_and_Scheduling_System.Repositories;
 using Optimisation_and_Scheduling_System.Repositories.Interfaces;
 
-
 namespace Optimisation_and_Scheduling_System.Controllers
 {
     [Authorize(Roles = "Driver")]
@@ -43,7 +42,7 @@ namespace Optimisation_and_Scheduling_System.Controllers
             var model = new DriverPreferencesViewModel
             {
                 DriverId = driverId,
-                ShiftPreferences = preferences?.ShiftPreferences ?? new List<int>(), // Default to an empty list if no preferences
+                ShiftPreferences = preferences.Select(p => p.ShiftId).ToList(),
                 AvailableShifts = availableShifts
             };
 
@@ -73,30 +72,29 @@ namespace Optimisation_and_Scheduling_System.Controllers
             }
         }
 
-
         // Action to save the preferences to the database
         [HttpPost]
         public ActionResult SavePreferences(DriverPreferencesViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                var preference = new DriverPreference
+                var preferences = viewModel.ShiftPreferences.Select((shiftId, index) => new DriverPreference
                 {
                     DriverId = viewModel.DriverId,
-                    ShiftPreferences = viewModel.ShiftPreferences
-                };
+                    ShiftId = shiftId,
+                    PreferenceOrder = index + 1
+                }).ToList();
 
-                _driverRepository.SaveDriverPreferences(preference);
+                _driverRepository.SaveDriverPreferences(preferences);
 
                 TempData["Success"] = "Preferences saved successfully!";
                 return RedirectToAction("Index");
             }
 
-            // Reload available shifts since they’re not persisted in the posted model
+            // Reload available shifts since they're not persisted in the posted model
             viewModel.AvailableShifts = _driverRepository.GetAvailableLineShifts();
             return View("Preferences", viewModel);
         }
-
 
         // Index action for DriverController (you can customize this action as needed)
         public ActionResult Index()

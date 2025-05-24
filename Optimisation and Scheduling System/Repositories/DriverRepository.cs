@@ -4,13 +4,13 @@ using Optimisation_and_Scheduling_System.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 
 namespace Optimisation_and_Scheduling_System.Repositories
 {
     public class DriverRepository : IDriverRepository
     {
         private readonly string _connectionString = ConfigurationManager.ConnectionStrings["PostgresConnection"].ConnectionString;
-
 
         // Get all drivers from the database
         public List<DriverModel> GetAllDrivers()
@@ -22,7 +22,7 @@ namespace Optimisation_and_Scheduling_System.Repositories
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
                     SELECT Id, Name, Gender, WorkerSince
-                    FROM DriverModel
+                    FROM drivermodel
                     ORDER BY Name", connection))
                 {
                     using (var reader = cmd.ExecuteReader())
@@ -34,7 +34,6 @@ namespace Optimisation_and_Scheduling_System.Repositories
                                 Id = reader.GetInt32(0),
                                 Name = reader.GetString(1),
                                 Gender = reader.GetString(2),
-
                                 WorkerSince = reader.GetDateTime(3)
                             };
                             drivers.Add(driver);
@@ -47,26 +46,30 @@ namespace Optimisation_and_Scheduling_System.Repositories
         }
 
         // Get the preferences of a specific driver
-        public DriverPreference GetDriverPreferences(int driverId)
+        public List<DriverPreference> GetDriverPreferences(int driverId)
         {
-            DriverPreference preferences = null;
+            var preferences = new List<DriverPreference>();
 
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
                     SELECT ShiftId, PreferenceOrder
-                    FROM DriverPreferences
+                    FROM driverpreferences
                     WHERE DriverId = @driverId
                     ORDER BY PreferenceOrder", connection))
                 {
                     cmd.Parameters.AddWithValue("driverId", driverId);
                     using (var reader = cmd.ExecuteReader())
                     {
-                        preferences = new DriverPreference { DriverId = driverId, ShiftPreferences = new List<int>() };
                         while (reader.Read())
                         {
-                            preferences.ShiftPreferences.Add(reader.GetInt32(0)); // Add shift ID to the preferences list
+                            preferences.Add(new DriverPreference
+                            {
+                                DriverId = driverId,
+                                ShiftId = reader.GetInt32(0),
+                                PreferenceOrder = reader.GetInt32(1)
+                            });
                         }
                     }
                 }
@@ -76,30 +79,42 @@ namespace Optimisation_and_Scheduling_System.Repositories
         }
 
         // Save or update the preferences for a specific driver
-        public void SaveDriverPreferences(DriverPreference preference)
+        public void SaveDriverPreferences(List<DriverPreference> preferences)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
             {
                 connection.Open();
-
-                // Delete existing preferences
-                using (var cmd = new NpgsqlCommand("DELETE FROM DriverPreferences WHERE DriverId = @driverId", connection))
+                using (var transaction = connection.BeginTransaction())
                 {
-                    cmd.Parameters.AddWithValue("driverId", preference.DriverId);
-                    cmd.ExecuteNonQuery();
-                }
-
-                // Insert new preferences
-                foreach (var shiftId in preference.ShiftPreferences)
-                {
-                    using (var cmd = new NpgsqlCommand(@"
-                        INSERT INTO DriverPreferences (DriverId, ShiftId, PreferenceOrder)
-                        VALUES (@driverId, @shiftId, @preferenceOrder)", connection))
+                    try
                     {
-                        cmd.Parameters.AddWithValue("driverId", preference.DriverId);
-                        cmd.Parameters.AddWithValue("shiftId", shiftId);
-                        cmd.Parameters.AddWithValue("preferenceOrder", preference.ShiftPreferences.IndexOf(shiftId) + 1); // Assign preference order
-                        cmd.ExecuteNonQuery();
+                        // Delete existing preferences
+                        using (var cmd = new NpgsqlCommand("DELETE FROM driverpreferences WHERE DriverId = @driverId", connection))
+                        {
+                            cmd.Parameters.AddWithValue("driverId", preferences.First().DriverId);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // Insert new preferences
+                        foreach (var pref in preferences)
+                        {
+                            using (var cmd = new NpgsqlCommand(@"
+                                INSERT INTO driverpreferences (DriverId, ShiftId, PreferenceOrder)
+                                VALUES (@driverId, @shiftId, @preferenceOrder)", connection))
+                            {
+                                cmd.Parameters.AddWithValue("driverId", pref.DriverId);
+                                cmd.Parameters.AddWithValue("shiftId", pref.ShiftId);
+                                cmd.Parameters.AddWithValue("preferenceOrder", pref.PreferenceOrder);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
                     }
                 }
             }
@@ -114,9 +129,9 @@ namespace Optimisation_and_Scheduling_System.Repositories
             {
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
-            SELECT ls.Id, ls.Day, ls.ShiftTimeStart, ls.ShiftTimeEnd, ls.IsDayShift, ls.LineId, l.Name
-            FROM LineShift ls
-            INNER JOIN Line l ON ls.LineId = l.Id", connection))
+                    SELECT ls.Id, ls.Day, ls.ShiftTimeStart, ls.ShiftTimeEnd, ls.IsDayShift, ls.LineId, l.Name
+                    FROM lineshift ls
+                    INNER JOIN line l ON ls.LineId = l.Id", connection))
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -132,7 +147,7 @@ namespace Optimisation_and_Scheduling_System.Repositories
                                 LineId = reader.GetInt32(5),
                                 Line = new Line
                                 {
-                                    Id = reader.GetInt32(5), // same as LineId
+                                    Id = reader.GetInt32(5),
                                     Name = reader.GetString(6)
                                 }
                             };
@@ -144,6 +159,5 @@ namespace Optimisation_and_Scheduling_System.Repositories
 
             return shifts;
         }
-
     }
 }

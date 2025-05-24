@@ -7,10 +7,8 @@ namespace Optimisation_and_Scheduling_System.Repositories.Interfaces
     public interface IDriverRepository
     {
         List<DriverModel> GetAllDrivers();
-
-
-        DriverPreference GetDriverPreferences(int driverId);
-        void SaveDriverPreferences(DriverPreference preference);
+        List<DriverPreference> GetDriverPreferences(int driverId);
+        void SaveDriverPreferences(List<DriverPreference> preferences);
         List<LineShift> GetAvailableLineShifts();
     }
 }

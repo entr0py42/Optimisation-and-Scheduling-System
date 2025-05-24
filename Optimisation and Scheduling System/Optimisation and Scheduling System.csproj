@@ -170,6 +170,7 @@
     <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\OptimizationController.cs" />
     <Compile Include="DataDb\DatabaseInitializer.cs" />
+    <Compile Include="DataDb\DatabaseSeeder.cs" />
     <Compile Include="DataDb\LoginModel.cs" />
     <Compile Include="DataDb\RegisterModel.cs" />
     <Compile Include="Global.asax.cs">

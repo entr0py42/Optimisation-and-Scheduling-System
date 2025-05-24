@@ -53,21 +53,22 @@ namespace Optimisation_and_Scheduling_System.Controllers
                 // Run the optimization process
                 var result = await _optimizationService.RunDriverSchedulingOptimizationAsync();
                 
-                // Handle the result
+                // If there's an error, show it on the same page
                 if (result.Status.StartsWith("Error"))
                 {
-                    ModelState.AddModelError("", result.Status);
+                    TempData["ErrorMessage"] = result.Status;
                     return View();
                 }
 
                 // Store the result in TempData for the results page
                 TempData["OptimizationResult"] = JsonConvert.SerializeObject(result);
+                TempData["SuccessMessage"] = "Optimization completed successfully!";
                 
                 return RedirectToAction("SchedulingResults");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", $"Error running optimization: {ex.Message}");
+                TempData["ErrorMessage"] = $"Error running optimization: {ex.Message}";
                 return View();
             }
         }
@@ -81,8 +82,15 @@ namespace Optimisation_and_Scheduling_System.Controllers
             // First try to get results from TempData (if coming from RunDriverScheduling)
             if (TempData["OptimizationResult"] != null)
             {
-                var resultJson = TempData["OptimizationResult"].ToString();
-                result = JsonConvert.DeserializeObject<OptimizationResultModel>(resultJson);
+                try
+                {
+                    var resultJson = TempData["OptimizationResult"].ToString();
+                    result = JsonConvert.DeserializeObject<OptimizationResultModel>(resultJson);
+                }
+                catch (Exception ex)
+                {
+                    TempData["ErrorMessage"] = $"Error parsing optimization results: {ex.Message}";
+                }
             }
             
             // If no result in TempData, try to load the latest results from file
@@ -95,18 +103,23 @@ namespace Optimisation_and_Scheduling_System.Controllers
                     {
                         result = JsonConvert.DeserializeObject<OptimizationResultModel>(json);
                         result.Status = "Completed";
-                        result.CreatedAt = DateTime.Now; // Set a timestamp since we don't have the original
+                        result.CreatedAt = DateTime.Now;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // If loading from file fails, result will remain null
+                    TempData["ErrorMessage"] = $"Error loading optimization results: {ex.Message}";
                 }
             }
             
             // If we have results, show them
             if (result != null)
             {
+                // Pass any success message from the optimization process
+                if (TempData["SuccessMessage"] != null)
+                {
+                    ViewBag.SuccessMessage = TempData["SuccessMessage"].ToString();
+                }
                 return View(result);
             }
             

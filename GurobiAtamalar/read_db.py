@@ -12,7 +12,7 @@ def get_db_connection():
         host="localhost",  # Hostname
         port=5432,         # Port number
         user="postgres",   # Username
-        password="5656",   # Password
+        password="19391945",   # Password
         database="optimisation_db"  # Database name
     )
     return connection
@@ -25,46 +25,38 @@ def get_drivers():
     cursor = connection.cursor()
 
     # Query for drivers from the database
-    cursor.execute("SELECT * FROM DriverModel;")
+    cursor.execute("SELECT Id, Name, Gender, WorkerSince, Performance, ExperienceYears FROM DriverModel;")
     rows = cursor.fetchall()
 
     # Initialize drivers dictionary
     drivers = {}
 
     for row in rows:
-        driver_id = row[0]  # Assuming the driver ID is the first column
-        name = row[1]  # Assuming name is the second column
-        gender = row[2]  # Assuming gender is the third column
-        daytime_hours = row[3]  # Adjust if needed
-        nighttime_hours = row[4]
-        weekend_hours = row[5]
-        weekend_night_hours = row[6]
-        worker_since = row[7]  # Assuming the 'worker_since' field is a timestamp
+        driver_id = row[0]  
+        name = row[1]  
+        gender = row[2]  
+        worker_since = row[3]
+        performance = row[4] if row[4] is not None else 85  # Default performance if NULL
+        experience_years = row[5] if row[5] is not None else 0  # Default experience if NULL
 
         # If gender is None, default to 'M'
         if gender is None:
             gender = 'M'
 
-        # Calculate experience in years
-        current_date = datetime.datetime.now()
-        experience_years = (current_date - worker_since).days // 365
-
-        # You can also add logic to fetch performance dynamically, for now assuming it's part of the DB
-        performance = 85  # Or another logic to fetch performance dynamically from a table or calculation
-
         drivers[driver_id] = {
             'name': name,
             'gender': gender,
-            'daytime_hours': daytime_hours,
-            'nighttime_hours': nighttime_hours,
-            'weekend_hours': weekend_hours,
-            'weekend_night_hours': weekend_night_hours,
             'worker_since': worker_since,
-            'performance': performance,  # Adjust to fetch dynamically
+            'performance': performance,
             'experience_years': experience_years
         }
 
+    cursor.close()
+    connection.close()
+
     return drivers
+
+
 # Fetch routes from the database
 def get_routes():
     connection = get_db_connection()
@@ -191,4 +183,35 @@ def get_routes_by_day():
     connection.close()
 
     return routes
+
+
+# Add test section at the end of the file
+if __name__ == "__main__":
+    try:
+        print("Testing database connections and data retrieval...")
+        
+        print("\nTesting drivers retrieval...")
+        drivers = get_drivers()
+        print(f"Retrieved {len(drivers)} drivers")
+        
+        print("\nTesting routes retrieval...")
+        routes = get_routes()
+        print(f"Retrieved {len(routes)} routes")
+        
+        print("\nTesting shifts retrieval...")
+        shifts = get_shifts()
+        print(f"Retrieved {len(shifts)} routes with shifts")
+        
+        print("\nTesting preferences retrieval...")
+        preferences = get_preferences()
+        print(f"Retrieved preferences for {len(preferences)} drivers")
+        
+        print("\nTesting routes by day retrieval...")
+        routes_by_day = get_routes_by_day()
+        print(f"Retrieved {len(routes_by_day)} routes with day-wise shifts")
+        
+        print("\n✅ All database operations completed successfully!")
+        
+    except Exception as e:
+        print(f"\n❌ Error during database operations: {str(e)}")
 

@@ -14,6 +14,6 @@ namespace Optimisation_and_Scheduling_System.Models
         public string Name { get; set; }
         public string Garage { get; set; }
 
-        public ICollection<LineShift> LineShifts { get; set; }
+        public virtual ICollection<LineShift> LineShifts { get; set; }
     }
 }
