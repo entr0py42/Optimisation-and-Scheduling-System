@@ -10,10 +10,13 @@ namespace Optimisation_and_Scheduling_System.Models
         {
         }
 
-        // DbSets for the Line, LineShift, and DriverModel models
+        // Existing DbSets
         public DbSet<Line> Lines { get; set; }
         public DbSet<LineShift> LineShifts { get; set; }
-        public DbSet<DriverModel> DriverModels { get; set; }  // Added this line
+        public DbSet<DriverModel> DriverModels { get; set; }
+
+        // Add DbSet for DriverScheduleAssignment
+        public DbSet<DriverScheduleAssignment> DriverScheduleAssignments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -38,7 +41,7 @@ namespace Optimisation_and_Scheduling_System.Models
                 .Property(x => x.ShiftTimeEnd).HasColumnName("shifttimeend");
             modelBuilder.Entity<LineShift>()
                 .Property(x => x.Day).HasColumnName("day");
-                        modelBuilder.Entity<LineShift>()
+            modelBuilder.Entity<LineShift>()
                 .Property(x => x.IsDayShift).HasColumnName("isdayshift");
 
             // Configure DriverModel entity mappings
@@ -51,10 +54,25 @@ namespace Optimisation_and_Scheduling_System.Models
             modelBuilder.Entity<DriverModel>()
                 .Property(x => x.WorkerSince).HasColumnName("workersince");
 
-            // Map entities to tables
+            // Configure DriverScheduleAssignment entity mappings
+            modelBuilder.Entity<DriverScheduleAssignment>()
+                .Property(x => x.Id).HasColumnName("id");
+            modelBuilder.Entity<DriverScheduleAssignment>()
+                .Property(x => x.DriverId).HasColumnName("driverid");
+            modelBuilder.Entity<DriverScheduleAssignment>()
+                .Property(x => x.Day).HasColumnName("day");
+            modelBuilder.Entity<DriverScheduleAssignment>()
+                .Property(x => x.Route).HasColumnName("route");
+            modelBuilder.Entity<DriverScheduleAssignment>()
+                .Property(x => x.Shift).HasColumnName("shift");
+            modelBuilder.Entity<DriverScheduleAssignment>()
+                .Property(x => x.IsBackup).HasColumnName("isbackup");
+
+            // Map tables to their schemas
             modelBuilder.Entity<Line>().ToTable("line", "public");
             modelBuilder.Entity<LineShift>().ToTable("lineshift", "public");
-            modelBuilder.Entity<DriverModel>().ToTable("drivermodel", "public"); // Ensure this line is present
+            modelBuilder.Entity<DriverModel>().ToTable("drivermodel", "public");
+            modelBuilder.Entity<DriverScheduleAssignment>().ToTable("driverscheduleassignments", "public");
         }
     }
 }

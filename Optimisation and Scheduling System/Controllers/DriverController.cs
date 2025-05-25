@@ -96,6 +96,25 @@ namespace Optimisation_and_Scheduling_System.Controllers
             return View("Preferences", viewModel);
         }
 
+
+
+        // Action to display the driver's schedule assignments
+        public ActionResult Schedule()
+        {
+            var driverId = GetDriverIdFromUser();
+
+            var assignments = _driverRepository.GetDriverScheduleAssignments(driverId);
+
+            return View(assignments);
+        }
+
+
+
+
+
+
+
+
         // Index action for DriverController (you can customize this action as needed)
         public ActionResult Index()
         {

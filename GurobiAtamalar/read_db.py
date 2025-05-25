@@ -12,7 +12,7 @@ def get_db_connection():
         host="localhost",  # Hostname
         port=5432,         # Port number
         user="postgres",   # Username
-        password="19391945",   # Password
+        password="5656",   # Password
         database="optimisation_db"  # Database name
     )
     return connection

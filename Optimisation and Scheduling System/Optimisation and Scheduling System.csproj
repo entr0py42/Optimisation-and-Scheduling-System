@@ -183,6 +183,7 @@
     <Compile Include="Models\DriverPreference.cs" />
     <Compile Include="Models\LineShiftModel.cs" />
     <Compile Include="Models\LineModel.cs" />
+    <Compile Include="Models\DriverScheduleAssignment.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\OptimizationResultModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -264,11 +265,13 @@
     <Content Include="Views\Optimization\SchedulingResults.cshtml" />
     <Content Include="Views\Manager\LineShifts.cshtml" />
     <Content Include="Views\Driver\Preferences.cshtml" />
+    <Content Include="Views\Driver\Schedule.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\ILineRepository\" />
     <Folder Include="Views\LineModel\" />
+    <Folder Include="Views\ScheduleAssignment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

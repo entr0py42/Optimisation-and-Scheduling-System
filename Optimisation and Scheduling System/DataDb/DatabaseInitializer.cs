@@ -67,6 +67,23 @@ namespace Optimisation_and_Scheduling_System.DataDb
                     FOREIGN KEY (ShiftId) REFERENCES lineshift(Id) ON DELETE CASCADE
                 );";
 
+
+                var createDriverScheduleAssignments = @"
+                CREATE TABLE IF NOT EXISTS driverscheduleassignments (
+                    Id SERIAL PRIMARY KEY,
+                    DriverId INT NOT NULL,
+                    Day VARCHAR(20) NOT NULL,
+                    Route INT NOT NULL,
+                    Shift INT NOT NULL,
+                    IsBackup BOOLEAN NOT NULL DEFAULT FALSE,
+                    FOREIGN KEY (DriverId) REFERENCES drivermodel(Id) ON DELETE CASCADE
+                );";
+
+
+
+
+
+
                 try
                 {
                     using (var transaction = connection.BeginTransaction())
@@ -85,6 +102,10 @@ namespace Optimisation_and_Scheduling_System.DataDb
 
                         using (var cmd = new NpgsqlCommand(createDriverPreferenceTable, connection))
                             cmd.ExecuteNonQuery();
+
+                        using (var cmd = new NpgsqlCommand(createDriverScheduleAssignments, connection))
+                            cmd.ExecuteNonQuery();
+
 
                         transaction.Commit();
 

@@ -1,0 +1,36 @@
+@model List<Optimisation_and_Scheduling_System.Models.DriverScheduleAssignment>
+
+@{
+    ViewBag.Title = "Driver Schedule";
+}
+
+<h2>Your Schedule Assignments</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No schedule assignments found.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Route</th>
+                <th>Shift</th>
+                <th>Backup</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var assignment in Model)
+            {
+                <tr>
+                    <td>@assignment.Day</td>
+                    <td>@assignment.Route</td>
+                    <td>@assignment.Shift</td>
+                    <td>@(assignment.IsBackup ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

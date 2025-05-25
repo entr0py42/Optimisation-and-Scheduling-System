@@ -1,5 +1,6 @@
 from gurobipy import Model, GRB, quicksum
 import read_db
+import write_db
 import numpy as np
 import json
 import os
@@ -7,7 +8,7 @@ import os
 # Ensure license environment variables are set
 os.environ["WLSACCESSID"] = "daa3d856-65ae-46fc-8fe2-b161380c7f91"
 os.environ["WLSSECRET"] = "b9f8f64f-d54d-497a-942d-d50c7a374bcb"
-os.environ["LICENSEID"] = "2661618"
+os.environ["LICENSEID"] = "5656"
 
 # --- 1. DATA ---
 
@@ -20,7 +21,7 @@ user_preferences = read_db.get_preferences()
 index_to_shift_id = {}
 for r in routes:
     for day in days:
-        shift_ids = routes[r]['shifts_by_day'][day]
+        shift_ids = routes[r]['shifts_by_day'].get(day, [])
         for idx, shift_id in enumerate(shift_ids):
             index_to_shift_id[(day, r, idx)] = shift_id
 
@@ -32,7 +33,7 @@ print(f"Number of routes: {len(routes)}")
 total_shifts = 0
 for r in routes:
     for day in days:
-        total_shifts += len(routes[r]['shifts_by_day'][day])
+        total_shifts += len(routes[r]['shifts_by_day'].get(day, []))
 print(f"Total shifts across all days: {total_shifts}")
 print(f"Total shifts per day: {total_shifts/7:.1f}")
 print(f"Required drivers per day (including backups): {(total_shifts/7)*2:.1f}")
@@ -49,7 +50,8 @@ for d in drivers:
     for day in days:
         y[d, day] = model.addVar(vtype=GRB.BINARY, name=f"Backup_{d}_{day}")
         for r in routes:
-            for s in range(len(routes[r]['shifts_by_day'][day])):
+            shift_list = routes[r]['shifts_by_day'].get(day, [])
+            for s in range(len(shift_list)):
                 x[d, day, r, s] = model.addVar(vtype=GRB.BINARY, name=f"x_{d}{day}{r}_{s}")
                 b[d, day, r, s] = model.addVar(vtype=GRB.BINARY, name=f"b_{d}{day}{r}_{s}")
 model.update()
@@ -58,41 +60,62 @@ model.update()
 
 for day in days:
     for r in routes:
-        for s in range(len(routes[r]['shifts_by_day'][day])):
+        shift_list = routes[r]['shifts_by_day'].get(day, [])
+        for s in range(len(shift_list)):
             model.addConstr(quicksum(x[d, day, r, s] for d in drivers) == 1)
 
 for d in drivers:
     for day in days:
         model.addConstr(
-            quicksum(x[d, day, r, s] for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))) + y[d, day] == 1
+            quicksum(
+                x[d, day, r, s] 
+                for r in routes 
+                for s in range(len(routes[r]['shifts_by_day'].get(day, [])))
+            ) + y[d, day] == 1
         )
 
 for d in drivers:
     for day in days:
         for r in routes:
-            for s in range(len(routes[r]['shifts_by_day'][day])):
+            shift_list = routes[r]['shifts_by_day'].get(day, [])
+            for s in range(len(shift_list)):
                 model.addConstr(b[d, day, r, s] <= y[d, day])
 
 for d in drivers:
     model.addConstr(
-        quicksum(x[d, day, r, s] * 8 for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))) <= 48
+        quicksum(
+            x[d, day, r, s] * 8
+            for day in days
+            for r in routes
+            for s in range(len(routes[r]['shifts_by_day'].get(day, [])))
+        ) <= 48
     )
 
 for day in days:
     for r in routes:
-        for s in range(len(routes[r]['shifts_by_day'][day])):
+        shift_list = routes[r]['shifts_by_day'].get(day, [])
+        for s in range(len(shift_list)):
             model.addConstr(quicksum(b[d, day, r, s] for d in drivers) == 1)
 
 for d in drivers:
     for day in days:
         model.addConstr(
-            quicksum(b[d, day, r, s] for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))) <= 1
+            quicksum(
+                b[d, day, r, s]
+                for r in routes
+                for s in range(len(routes[r]['shifts_by_day'].get(day, [])))
+            ) <= 1
         )
 
 max_shifts = model.addVar(vtype=GRB.INTEGER)
 min_shifts = model.addVar(vtype=GRB.INTEGER)
 for d in drivers:
-    total_shifts = quicksum(x[d, day, r, s] for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day])))
+    total_shifts = quicksum(
+        x[d, day, r, s]
+        for day in days
+        for r in routes
+        for s in range(len(routes[r]['shifts_by_day'].get(day, [])))
+    )
     model.addConstr(max_shifts >= total_shifts)
     model.addConstr(min_shifts <= total_shifts)
 
@@ -108,7 +131,10 @@ primary_objective = quicksum(
         drivers[d]['experience_years'] * 100 +
         (1 if drivers[d]['gender'] == 'F' else 0) * 50
     )
-    for d in drivers for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))
+    for d in drivers 
+    for day in days 
+    for r in routes
+    for s in range(len(routes[r]['shifts_by_day'].get(day, [])))
 )
 
 backup_objective = 2 * quicksum(
@@ -118,7 +144,10 @@ backup_objective = 2 * quicksum(
         drivers[d]['experience_years'] * 100 +
         (1 if drivers[d]['gender'] == 'F' else 0) * 50
     )
-    for d in drivers for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))
+    for d in drivers 
+    for day in days 
+    for r in routes
+    for s in range(len(routes[r]['shifts_by_day'].get(day, [])))
 )
 
 fairness_penalty = 1000000 * (max_shifts - min_shifts)
@@ -138,7 +167,8 @@ try:
         for day in days:
             results["assignments"][f"Day_{day}"] = {}
             for r in routes:
-                for s in range(len(routes[r]['shifts_by_day'][day])):
+                shift_list = routes[r]['shifts_by_day'].get(day, [])
+                for s in range(len(shift_list)):
                     shift_id = index_to_shift_id[(day, r, s)]
                     assigned_drivers = [d for d in drivers if x[d, day, r, s].X > 0.5]
                     results["assignments"][f"Day_{day}"][f"Route_{r}Shift{shift_id}"] = [
@@ -150,7 +180,8 @@ try:
                 if y[d, day].X > 0.5:
                     assigned_backups = []
                     for r in routes:
-                        for s in range(len(routes[r]['shifts_by_day'][day])):
+                        shift_list = routes[r]['shifts_by_day'].get(day, [])
+                        for s in range(len(shift_list)):
                             if b[d, day, r, s].X > 0.5:
                                 shift_id = index_to_shift_id[(day, r, s)]
                                 assigned_backups.append({"route": r, "shift": shift_id, "preference": get_preference(d, shift_id)})
@@ -163,7 +194,8 @@ try:
                 results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"] = {}
                 for r in routes:
                     results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"][f"Route_{r}"] = {}
-                    for s in range(len(routes[r]['shifts_by_day'][day])):
+                    shift_list = routes[r]['shifts_by_day'].get(day, [])
+                    for s in range(len(shift_list)):
                         shift_id = index_to_shift_id[(day, r, s)]
                         results["preferences_matrix"][f"Driver_{d}"][f"Day_{day}"][f"Route_{r}"][f"Shift_{s}"] = get_preference(d, shift_id)
 
@@ -171,6 +203,11 @@ try:
             json.dump(results, f, indent=4)
 
         print("✅ Schedule created and saved as 'clean2_driver_schedule.json'.")
+        try:
+            write_db.save()
+            print("Saved to database")
+        except:
+            print("Couldn't save to database.")
         
     elif model.status == GRB.Status.INFEASIBLE:
         print("\n❌ Model is infeasible. Computing and displaying IIS (Irreducible Inconsistent Subsystem)...")

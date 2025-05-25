@@ -10,5 +10,9 @@ namespace Optimisation_and_Scheduling_System.Repositories.Interfaces
         List<DriverPreference> GetDriverPreferences(int driverId);
         void SaveDriverPreferences(List<DriverPreference> preferences);
         List<LineShift> GetAvailableLineShifts();
+
+        List<DriverScheduleAssignment> GetDriverScheduleAssignments(int driverId);
+
+
     }
 }
