@@ -22,6 +22,9 @@ namespace Optimisation_and_Scheduling_System.Models
 
         public bool IsBackup { get; set; } = false;
 
+        public string RouteName { get; set; }
+
+
 
     }
 }

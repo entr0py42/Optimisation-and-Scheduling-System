@@ -3,18 +3,34 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="container">
-    <h2>Driver Dashboard</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Welcome, @User.Identity.Name!</h3>
+<div class="container mt-4">
+    <h2 class="mb-4">Driver Dashboard</h2>
+
+    <div class="alert alert-info">
+        <strong>Welcome, @User.Identity.Name!</strong>
+        <br />
+        This is your dashboard where you can view your schedule and manage your preferences.
+    </div>
+
+    <div class="row text-center">
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-primary">
+                <div class="card-body">
+                    <h4 class="card-title">Shift Preferences</h4>
+                    <p class="card-text">Set your weekly preferred shifts.</p>
+                    <a href="@Url.Action("Preferences", "Driver")" class="btn btn-primary">Set Preferences</a>
                 </div>
-                <div class="panel-body">
-                    <p>This is the driver dashboard where you can view your schedule and manage your availability.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card shadow-sm border-success">
+                <div class="card-body">
+                    <h4 class="card-title">View Schedule</h4>
+                    <p class="card-text">See your assigned shifts and backup duties.</p>
+                    <a href="@Url.Action("Schedule", "Driver")" class="btn btn-success">View Schedule</a>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>

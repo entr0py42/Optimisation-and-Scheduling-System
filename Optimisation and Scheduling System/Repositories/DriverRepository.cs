@@ -168,10 +168,11 @@ namespace Optimisation_and_Scheduling_System.Repositories
             {
                 connection.Open();
                 using (var cmd = new NpgsqlCommand(@"
-            SELECT Id, DriverId, Day, Route, Shift, IsBackup
-            FROM driverscheduleassignments
-            WHERE DriverId = @driverId
-            ORDER BY Day, Shift", connection))
+            SELECT a.Id, a.DriverId, a.Day, r.Name AS RouteName, a.Shift, a.IsBackup
+            FROM driverscheduleassignments a
+            INNER JOIN line r ON a.Route = r.Id
+            WHERE a.DriverId = @driverId
+            ORDER BY a.Day, a.Shift", connection))
                 {
                     cmd.Parameters.AddWithValue("driverId", driverId);
 
@@ -184,7 +185,7 @@ namespace Optimisation_and_Scheduling_System.Repositories
                                 Id = reader.GetInt32(0),
                                 DriverId = reader.GetInt32(1),
                                 Day = reader.GetString(2),
-                                Route = reader.GetInt32(3),
+                                RouteName = reader.GetString(3), // New field
                                 Shift = reader.GetInt32(4),
                                 IsBackup = reader.GetBoolean(5)
                             };
@@ -196,7 +197,6 @@ namespace Optimisation_and_Scheduling_System.Repositories
 
             return assignments;
         }
-
 
 
     }
