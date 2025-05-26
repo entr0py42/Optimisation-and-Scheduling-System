@@ -24,6 +24,9 @@ namespace Optimisation_and_Scheduling_System.Models
 
         public string RouteName { get; set; }
 
+        public TimeSpan ShiftTimeStart { get; set; }
+        public TimeSpan ShiftTimeEnd { get; set; }
+
 
 
     }

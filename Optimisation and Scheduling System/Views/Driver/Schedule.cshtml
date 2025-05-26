@@ -18,6 +18,8 @@ else
                 <th>Day</th>
                 <th>Route</th>
                 <th>Shift</th>
+                <th>Start Time</th>
+                <th>End Time</th>
                 <th>Backup</th>
             </tr>
         </thead>
@@ -28,9 +30,12 @@ else
                     <td>@assignment.Day</td>
                     <td>@assignment.RouteName</td>
                     <td>@assignment.Shift</td>
+                    <td>@assignment.ShiftTimeStart.ToString(@"hh\:mm")</td>
+                    <td>@assignment.ShiftTimeEnd.ToString(@"hh\:mm")</td>
                     <td>@(assignment.IsBackup ? "Yes" : "No")</td>
                 </tr>
             }
         </tbody>
     </table>
+
 }
