@@ -123,11 +123,11 @@ namespace Optimisation_and_Scheduling_System.DataDb
                         using (var cmd = new NpgsqlCommand(seedDrivers, connection))
                             cmd.ExecuteNonQuery();
 
-                        using (var cmd = new NpgsqlCommand(seedLines, connection))
-                            cmd.ExecuteNonQuery();
+                        //using (var cmd = new NpgsqlCommand(seedLines, connection))
+                        //    cmd.ExecuteNonQuery();
 
-                        using (var cmd = new NpgsqlCommand(seedLineShifts, connection))
-                            cmd.ExecuteNonQuery();
+                        //using (var cmd = new NpgsqlCommand(seedLineShifts, connection))
+                        //    cmd.ExecuteNonQuery();
 
                         //using (var cmd = new NpgsqlCommand(seedPreferences, connection))
                         //    cmd.ExecuteNonQuery();
