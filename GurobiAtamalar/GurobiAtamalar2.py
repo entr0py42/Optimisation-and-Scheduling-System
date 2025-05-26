@@ -1,5 +1,6 @@
 from gurobipy import Model, GRB, quicksum
 import read_db
+import write_db
 import json
 import os
 
@@ -51,9 +52,11 @@ for d in drivers:
     for day in days:
         y[d, day] = model.addVar(vtype=GRB.BINARY, name=f"Backup_{d}_{day}")
         for r in routes:
-            for s in range(len(routes[r]['shifts_by_day'][day])):
-                x[d, day, r, s] = model.addVar(vtype=GRB.BINARY, name=f"x_{d}_{day}_{r}_{s}")
-                b[d, day, r, s] = model.addVar(vtype=GRB.BINARY, name=f"b_{d}_{day}_{r}_{s}")
+            # Check if day exists and has shifts for this route
+            if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                for s in range(len(routes[r]['shifts_by_day'][day])):
+                    x[d, day, r, s] = model.addVar(vtype=GRB.BINARY, name=f"x_{d}_{day}_{r}_{s}")
+                    b[d, day, r, s] = model.addVar(vtype=GRB.BINARY, name=f"b_{d}_{day}_{r}_{s}")
 
 model.update()
 
@@ -63,40 +66,54 @@ print("Adding constraints...")
 # 4.1 Each shift must have exactly 1 primary driver
 for day in days:
     for r in routes:
-        for s in range(len(routes[r]['shifts_by_day'][day])):
-            model.addConstr(quicksum(x[d, day, r, s] for d in drivers) == 1)
+        if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+            for s in range(len(routes[r]['shifts_by_day'][day])):
+                model.addConstr(quicksum(x[d, day, r, s] for d in drivers) == 1)
 
 # 4.2 Each driver works either a shift or is backup (not both)
 for d in drivers:
     for day in days:
-        model.addConstr(
-            quicksum(x[d, day, r, s] for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))) + y[d, day] == 1
-        )
+        # Sum over all shifts that exist on this day
+        total_shifts = []
+        for r in routes:
+            if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                for s in range(len(routes[r]['shifts_by_day'][day])):
+                    total_shifts.append(x[d, day, r, s])
+        model.addConstr(quicksum(total_shifts) + y[d, day] == 1)
 
 # 4.3 Each shift must have exactly one backup driver
 for day in days:
     for r in routes:
-        for s in range(len(routes[r]['shifts_by_day'][day])):
-            model.addConstr(quicksum(b[d, day, r, s] for d in drivers) == 1)
+        if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+            for s in range(len(routes[r]['shifts_by_day'][day])):
+                model.addConstr(quicksum(b[d, day, r, s] for d in drivers) == 1)
 
 # 4.4 Backup shifts only for backup drivers and limit to max 2 backup assignments per day
 for d in drivers:
     for day in days:
         # Backup shifts only for backup drivers
         for r in routes:
-            for s in range(len(routes[r]['shifts_by_day'][day])):
-                model.addConstr(b[d, day, r, s] <= y[d, day])
-        
+            if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                for s in range(len(routes[r]['shifts_by_day'][day])):
+                    model.addConstr(b[d, day, r, s] <= y[d, day])
+
         # Limit backup assignments to 2 per day
-        model.addConstr(
-            quicksum(b[d, day, r, s] for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))) <= 2 * y[d, day]
-        )
+        backup_shifts = []
+        for r in routes:
+            if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                for s in range(len(routes[r]['shifts_by_day'][day])):
+                    backup_shifts.append(b[d, day, r, s])
+        model.addConstr(quicksum(backup_shifts) <= 2 * y[d, day])
 
 # 4.5 Weekly hours cap (48 hours, 8h per shift)
 for d in drivers:
-    model.addConstr(
-        quicksum(x[d, day, r, s] * 8 for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))) <= 48
-    )
+    primary_shifts = []
+    for day in days:
+        for r in routes:
+            if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                for s in range(len(routes[r]['shifts_by_day'][day])):
+                    primary_shifts.append(x[d, day, r, s] * 8)
+    model.addConstr(quicksum(primary_shifts) <= 48)
 
 # --- 5. OBJECTIVE FUNCTION ---
 print("Setting objective function...")
@@ -112,7 +129,9 @@ primary_objective = quicksum(
         drivers[d]['experience_years'] * 100 +  # Experience
         (1 if drivers[d]['gender'] == 'F' else 0) * 50  # Gender diversity
     )
-    for d in drivers for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))
+    for d in drivers for day in days for r in routes
+    if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]
+    for s in range(len(routes[r]['shifts_by_day'][day]))
 )
 
 # Backup assignment objective (weighted less than primary assignments)
@@ -123,10 +142,11 @@ backup_objective = 0.5 * quicksum(
         drivers[d]['experience_years'] * 100 +  # Experience
         (1 if drivers[d]['gender'] == 'F' else 0) * 50  # Gender diversity
     )
-    for d in drivers for day in days for r in routes for s in range(len(routes[r]['shifts_by_day'][day]))
+    for d in drivers for day in days for r in routes
+    if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]
+    for s in range(len(routes[r]['shifts_by_day'][day]))
 )
 
-# Combine objectives
 model.setObjective(primary_objective + backup_objective, GRB.MAXIMIZE)
 
 # --- 6. SOLVE ---
@@ -141,7 +161,6 @@ try:
         print("\nBuilding results...")
         results = {"assignments": {}, "backups": {}, "schedule_info": {}}
         
-        # Add basic info
         results["schedule_info"] = {
             "total_drivers": len(drivers),
             "total_routes": len(routes),
@@ -151,43 +170,49 @@ try:
         for day in days:
             results["assignments"][f"Day_{day}"] = {}
             for r in routes:
-                for s in range(len(routes[r]['shifts_by_day'][day])):
-                    shift_id = routes[r]['shifts_by_day'][day][s]
-                    assigned_drivers = [d for d in drivers if x[d, day, r, s].X > 0.5]
-                    if assigned_drivers:
-                        d = assigned_drivers[0]  # There should be exactly one
-                        results["assignments"][f"Day_{day}"][f"Route_{r}_Shift_{shift_id}"] = {
-                            "driver_id": d,
-                            "driver_name": drivers[d]['name'],
-                            "preference": get_preference(d, shift_id),
-                            "performance": drivers[d]['performance'],
-                            "experience": drivers[d]['experience_years']
-                        }
+                if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                    for s in range(len(routes[r]['shifts_by_day'][day])):
+                        shift_id = routes[r]['shifts_by_day'][day][s]
+                        assigned_drivers = [d for d in drivers if x[d, day, r, s].X > 0.5]
+                        if assigned_drivers:
+                            d = assigned_drivers[0]  # There should be exactly one
+                            results["assignments"][f"Day_{day}"][f"Route_{r}_Shift_{shift_id}"] = {
+                                "driver_id": d,
+                                "driver_name": drivers[d]['name'],
+                                "preference": get_preference(d, shift_id),
+                                "performance": drivers[d]['performance'],
+                                "experience": drivers[d]['experience_years']
+                            }
 
             results["backups"][f"Day_{day}"] = {}
             for d in drivers:
                 if y[d, day].X > 0.5:
                     backup_assignments = []
                     for r in routes:
-                        for s in range(len(routes[r]['shifts_by_day'][day])):
-                            if b[d, day, r, s].X > 0.5:
-                                shift_id = routes[r]['shifts_by_day'][day][s]
-                                backup_assignments.append({
-                                    "route": r,
-                                    "shift_id": shift_id,
-                                    "preference": get_preference(d, shift_id)
-                                })
+                        if day in routes[r]['shifts_by_day'] and routes[r]['shifts_by_day'][day]:
+                            for s in range(len(routes[r]['shifts_by_day'][day])):
+                                if b[d, day, r, s].X > 0.5:
+                                    shift_id = routes[r]['shifts_by_day'][day][s]
+                                    backup_assignments.append({
+                                        "route": r,
+                                        "shift_id": shift_id,
+                                        "preference": get_preference(d, shift_id)
+                                    })
                     if backup_assignments:
                         results["backups"][f"Day_{day}"][f"Driver_{d}"] = {
                             "driver_name": drivers[d]['name'],
                             "backup_assignments": backup_assignments
                         }
 
-        # Save results
         with open("optimized_schedule.json", "w") as f:
             json.dump(results, f, indent=4)
 
         print("[SUCCESS] Schedule created and saved as 'optimized_schedule.json'")
+
+        try:
+            write_db.save()
+        except:
+            print("error saving to db")
         
     elif model.status == GRB.Status.INFEASIBLE:
         print("\n[ERROR] Model is infeasible. Computing IIS...")

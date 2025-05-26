@@ -1,0 +1,142 @@
+{
+    "assignments": {
+        "Day_1": {
+            "Route_1_Shift_1": {
+                "driver_id": 110,
+                "driver_name": "Lisa Anderson",
+                "preference": 1,
+                "performance": 88,
+                "experience": 6
+            }
+        },
+        "Day_2": {},
+        "Day_3": {},
+        "Day_4": {},
+        "Day_5": {
+            "Route_4_Shift_52": {
+                "driver_id": 115,
+                "driver_name": "Thomas Moore",
+                "preference": 2,
+                "performance": 86,
+                "experience": 7
+            }
+        },
+        "Day_6": {
+            "Route_1_Shift_11": {
+                "driver_id": 108,
+                "driver_name": "Sarah Johnson",
+                "preference": 1,
+                "performance": 89,
+                "experience": 6
+            },
+            "Route_4_Shift_54": {
+                "driver_id": 101,
+                "driver_name": "John Doe",
+                "preference": 1,
+                "performance": 92,
+                "experience": 5
+            },
+            "Route_4_Shift_53": {
+                "driver_id": 114,
+                "driver_name": "Maria Garcia",
+                "preference": 1,
+                "performance": 94,
+                "experience": 16
+            }
+        },
+        "Day_7": {
+            "Route_4_Shift_56": {
+                "driver_id": 112,
+                "driver_name": "Emily Davis",
+                "preference": 1,
+                "performance": 91,
+                "experience": 13
+            },
+            "Route_4_Shift_55": {
+                "driver_id": 105,
+                "driver_name": "Charlie Wilson",
+                "preference": 1,
+                "performance": 95,
+                "experience": 7
+            }
+        }
+    },
+    "backups": {
+        "Day_1": {
+            "Driver_1004": {
+                "driver_name": "sinankaya",
+                "backup_assignments": [
+                    {
+                        "route": 1,
+                        "shift_id": 1,
+                        "preference": 1
+                    }
+                ]
+            }
+        },
+        "Day_2": {},
+        "Day_3": {},
+        "Day_4": {},
+        "Day_5": {
+            "Driver_1003": {
+                "driver_name": "ripashriser",
+                "backup_assignments": [
+                    {
+                        "route": 4,
+                        "shift_id": 52,
+                        "preference": 2
+                    }
+                ]
+            }
+        },
+        "Day_6": {
+            "Driver_102": {
+                "driver_name": "Jane Smith",
+                "backup_assignments": [
+                    {
+                        "route": 1,
+                        "shift_id": 11,
+                        "preference": 2
+                    },
+                    {
+                        "route": 4,
+                        "shift_id": 53,
+                        "preference": 2
+                    }
+                ]
+            },
+            "Driver_103": {
+                "driver_name": "Bob Johnson",
+                "backup_assignments": [
+                    {
+                        "route": 4,
+                        "shift_id": 54,
+                        "preference": 1
+                    }
+                ]
+            }
+        },
+        "Day_7": {
+            "Driver_101": {
+                "driver_name": "John Doe",
+                "backup_assignments": [
+                    {
+                        "route": 4,
+                        "shift_id": 56,
+                        "preference": 1
+                    },
+                    {
+                        "route": 4,
+                        "shift_id": 55,
+                        "preference": 1
+                    }
+                ]
+            }
+        }
+    },
+    "schedule_info": {
+        "total_drivers": 20,
+        "total_routes": 2,
+        "days_planned": 7
+    }
+}
