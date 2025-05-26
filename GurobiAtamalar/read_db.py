@@ -12,7 +12,7 @@ def get_db_connection():
         host="localhost",  # Hostname
         port=5432,         # Port number
         user="postgres",   # Username
-        password="19391945",   # Password
+        password="5656",   # Password
         database="optimisation_db"  # Database name
     )
     return connection
@@ -210,8 +210,8 @@ if __name__ == "__main__":
         routes_by_day = get_routes_by_day()
         print(f"Retrieved {len(routes_by_day)} routes with day-wise shifts")
         
-        print("\n✅ All database operations completed successfully!")
+        print("\n All database operations completed successfully!")
         
     except Exception as e:
-        print(f"\n❌ Error during database operations: {str(e)}")
+        print(f"\n Error during database operations: {str(e)}")
 

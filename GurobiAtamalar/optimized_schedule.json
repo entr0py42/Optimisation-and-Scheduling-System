@@ -1,408 +1,39 @@
 {
     "assignments": {
         "Day_1": {
-            "Route_1_Shift_1": {
-                "driver_id": 101,
-                "driver_name": "John Doe",
+            "Route_2_Shift_16": {
+                "driver_id": 1002,
+                "driver_name": "gulibikkaya",
                 "preference": 1,
-                "performance": 92,
-                "experience": 10
-            },
-            "Route_1_Shift_2": {
-                "driver_id": 102,
-                "driver_name": "Jane Smith",
-                "preference": 1,
-                "performance": 92,
-                "experience": 5
+                "performance": 85,
+                "experience": 0
             },
             "Route_2_Shift_15": {
-                "driver_id": 105,
-                "driver_name": "Charlie Wilson",
-                "preference": 2,
-                "performance": 95,
-                "experience": 20
-            },
-            "Route_2_Shift_16": {
-                "driver_id": 109,
-                "driver_name": "Michael Chen",
-                "preference": 1,
-                "performance": 90,
-                "experience": 12
-            },
-            "Route_3_Shift_29": {
-                "driver_id": 107,
-                "driver_name": "David Lee",
-                "preference": 1,
-                "performance": 80,
-                "experience": 7
-            },
-            "Route_3_Shift_30": {
-                "driver_id": 106,
-                "driver_name": "Eva Martinez",
-                "preference": 2,
-                "performance": 85,
-                "experience": 9
-            },
-            "Route_4_Shift_43": {
-                "driver_id": 108,
-                "driver_name": "Sarah Johnson",
-                "preference": 2,
-                "performance": 89,
-                "experience": 11
-            },
-            "Route_4_Shift_44": {
-                "driver_id": 112,
-                "driver_name": "Emily Davis",
-                "preference": 1,
-                "performance": 91,
-                "experience": 13
-            }
-        },
-        "Day_2": {
-            "Route_1_Shift_3": {
-                "driver_id": 112,
-                "driver_name": "Emily Davis",
-                "preference": 1,
-                "performance": 91,
-                "experience": 13
-            },
-            "Route_1_Shift_4": {
-                "driver_id": 113,
-                "driver_name": "Robert Taylor",
-                "preference": 1,
-                "performance": 83,
-                "experience": 5
-            },
-            "Route_2_Shift_17": {
-                "driver_id": 108,
-                "driver_name": "Sarah Johnson",
-                "preference": 1,
-                "performance": 89,
-                "experience": 11
-            },
-            "Route_2_Shift_18": {
-                "driver_id": 111,
-                "driver_name": "James Wilson",
-                "preference": 2,
-                "performance": 87,
-                "experience": 8
-            },
-            "Route_3_Shift_31": {
                 "driver_id": 114,
                 "driver_name": "Maria Garcia",
                 "preference": 1,
                 "performance": 94,
                 "experience": 16
-            },
-            "Route_3_Shift_32": {
-                "driver_id": 106,
-                "driver_name": "Eva Martinez",
-                "preference": 1,
-                "performance": 85,
-                "experience": 9
-            },
-            "Route_4_Shift_45": {
-                "driver_id": 104,
-                "driver_name": "Alice Brown",
-                "preference": 1,
-                "performance": 78,
-                "experience": 15
-            },
-            "Route_4_Shift_46": {
-                "driver_id": 109,
-                "driver_name": "Michael Chen",
-                "preference": 1,
-                "performance": 90,
-                "experience": 12
             }
         },
-        "Day_3": {
-            "Route_1_Shift_5": {
-                "driver_id": 102,
-                "driver_name": "Jane Smith",
-                "preference": 1,
-                "performance": 92,
-                "experience": 5
-            },
-            "Route_1_Shift_6": {
-                "driver_id": 115,
-                "driver_name": "Thomas Moore",
-                "preference": 2,
-                "performance": 86,
-                "experience": 7
-            },
-            "Route_2_Shift_19": {
-                "driver_id": 101,
-                "driver_name": "John Doe",
-                "preference": 2,
-                "performance": 92,
-                "experience": 10
-            },
-            "Route_2_Shift_20": {
-                "driver_id": 112,
-                "driver_name": "Emily Davis",
-                "preference": 1,
-                "performance": 91,
-                "experience": 13
-            },
-            "Route_3_Shift_33": {
-                "driver_id": 109,
-                "driver_name": "Michael Chen",
-                "preference": 1,
-                "performance": 90,
-                "experience": 12
-            },
-            "Route_3_Shift_34": {
-                "driver_id": 107,
-                "driver_name": "David Lee",
-                "preference": 1,
-                "performance": 80,
-                "experience": 7
-            },
-            "Route_4_Shift_47": {
-                "driver_id": 108,
-                "driver_name": "Sarah Johnson",
-                "preference": 2,
-                "performance": 89,
-                "experience": 11
-            },
-            "Route_4_Shift_48": {
-                "driver_id": 113,
-                "driver_name": "Robert Taylor",
-                "preference": 1,
-                "performance": 83,
-                "experience": 5
-            }
-        },
-        "Day_4": {
-            "Route_1_Shift_7": {
-                "driver_id": 115,
-                "driver_name": "Thomas Moore",
-                "preference": 2,
-                "performance": 86,
-                "experience": 7
-            },
-            "Route_1_Shift_8": {
-                "driver_id": 113,
-                "driver_name": "Robert Taylor",
-                "preference": 1,
-                "performance": 83,
-                "experience": 5
-            },
-            "Route_2_Shift_21": {
-                "driver_id": 101,
-                "driver_name": "John Doe",
-                "preference": 2,
-                "performance": 92,
-                "experience": 10
-            },
-            "Route_2_Shift_22": {
-                "driver_id": 110,
-                "driver_name": "Lisa Anderson",
-                "preference": 2,
-                "performance": 88,
-                "experience": 6
-            },
-            "Route_3_Shift_35": {
-                "driver_id": 111,
-                "driver_name": "James Wilson",
-                "preference": 1,
-                "performance": 87,
-                "experience": 8
-            },
-            "Route_3_Shift_36": {
-                "driver_id": 106,
-                "driver_name": "Eva Martinez",
-                "preference": 1,
-                "performance": 85,
-                "experience": 9
-            },
-            "Route_4_Shift_49": {
-                "driver_id": 105,
-                "driver_name": "Charlie Wilson",
-                "preference": 1,
-                "performance": 95,
-                "experience": 20
-            },
-            "Route_4_Shift_50": {
-                "driver_id": 114,
-                "driver_name": "Maria Garcia",
-                "preference": 2,
-                "performance": 94,
-                "experience": 16
-            }
-        },
-        "Day_5": {
-            "Route_1_Shift_9": {
-                "driver_id": 108,
-                "driver_name": "Sarah Johnson",
-                "preference": 1,
-                "performance": 89,
-                "experience": 11
-            },
-            "Route_1_Shift_10": {
-                "driver_id": 115,
-                "driver_name": "Thomas Moore",
-                "preference": 2,
-                "performance": 86,
-                "experience": 7
-            },
-            "Route_2_Shift_23": {
-                "driver_id": 101,
-                "driver_name": "John Doe",
-                "preference": 1,
-                "performance": 92,
-                "experience": 10
-            },
-            "Route_2_Shift_24": {
-                "driver_id": 109,
-                "driver_name": "Michael Chen",
-                "preference": 1,
-                "performance": 90,
-                "experience": 12
-            },
-            "Route_3_Shift_37": {
-                "driver_id": 114,
-                "driver_name": "Maria Garcia",
-                "preference": 1,
-                "performance": 94,
-                "experience": 16
-            },
-            "Route_3_Shift_38": {
-                "driver_id": 105,
-                "driver_name": "Charlie Wilson",
-                "preference": 2,
-                "performance": 95,
-                "experience": 20
-            },
-            "Route_4_Shift_51": {
-                "driver_id": 103,
-                "driver_name": "Bob Johnson",
-                "preference": 1,
-                "performance": 78,
-                "experience": 8
-            },
-            "Route_4_Shift_52": {
-                "driver_id": 113,
-                "driver_name": "Robert Taylor",
-                "preference": 1,
-                "performance": 83,
-                "experience": 5
-            }
-        },
-        "Day_6": {
-            "Route_1_Shift_11": {
-                "driver_id": 102,
-                "driver_name": "Jane Smith",
-                "preference": 1,
-                "performance": 92,
-                "experience": 5
-            },
-            "Route_1_Shift_12": {
-                "driver_id": 101,
-                "driver_name": "John Doe",
-                "preference": 1,
-                "performance": 92,
-                "experience": 10
-            },
-            "Route_2_Shift_25": {
-                "driver_id": 110,
-                "driver_name": "Lisa Anderson",
-                "preference": 1,
-                "performance": 88,
-                "experience": 6
-            },
-            "Route_2_Shift_26": {
-                "driver_id": 109,
-                "driver_name": "Michael Chen",
-                "preference": 1,
-                "performance": 90,
-                "experience": 12
-            },
-            "Route_3_Shift_39": {
-                "driver_id": 112,
-                "driver_name": "Emily Davis",
-                "preference": 2,
-                "performance": 91,
-                "experience": 13
-            },
-            "Route_3_Shift_40": {
-                "driver_id": 114,
-                "driver_name": "Maria Garcia",
-                "preference": 2,
-                "performance": 94,
-                "experience": 16
-            },
-            "Route_4_Shift_53": {
-                "driver_id": 108,
-                "driver_name": "Sarah Johnson",
-                "preference": 2,
-                "performance": 89,
-                "experience": 11
-            },
-            "Route_4_Shift_54": {
-                "driver_id": 104,
-                "driver_name": "Alice Brown",
-                "preference": 2,
-                "performance": 78,
-                "experience": 15
-            }
-        },
+        "Day_2": {},
+        "Day_3": {},
+        "Day_4": {},
+        "Day_5": {},
+        "Day_6": {},
         "Day_7": {
-            "Route_1_Shift_13": {
-                "driver_id": 105,
-                "driver_name": "Charlie Wilson",
-                "preference": 2,
-                "performance": 95,
-                "experience": 20
-            },
-            "Route_1_Shift_14": {
-                "driver_id": 104,
-                "driver_name": "Alice Brown",
-                "preference": 2,
-                "performance": 78,
-                "experience": 15
-            },
-            "Route_2_Shift_27": {
+            "Route_3_Shift_42": {
                 "driver_id": 106,
                 "driver_name": "Eva Martinez",
                 "preference": 1,
                 "performance": 85,
-                "experience": 9
-            },
-            "Route_2_Shift_28": {
-                "driver_id": 107,
-                "driver_name": "David Lee",
-                "preference": 1,
-                "performance": 80,
-                "experience": 7
+                "experience": 6
             },
             "Route_3_Shift_41": {
-                "driver_id": 110,
-                "driver_name": "Lisa Anderson",
-                "preference": 2,
-                "performance": 88,
-                "experience": 6
-            },
-            "Route_3_Shift_42": {
                 "driver_id": 113,
                 "driver_name": "Robert Taylor",
-                "preference": 2,
-                "performance": 83,
-                "experience": 5
-            },
-            "Route_4_Shift_55": {
-                "driver_id": 103,
-                "driver_name": "Bob Johnson",
                 "preference": 1,
-                "performance": 78,
-                "experience": 8
-            },
-            "Route_4_Shift_56": {
-                "driver_id": 102,
-                "driver_name": "Jane Smith",
-                "preference": 3,
-                "performance": 92,
+                "performance": 83,
                 "experience": 5
             }
         }
@@ -413,469 +44,54 @@
                 "driver_name": "Bob Johnson",
                 "backup_assignments": [
                     {
-                        "route": 1,
-                        "shift_id": 2,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_111": {
-                "driver_name": "James Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 29,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 44,
-                        "preference": 3
-                    }
-                ]
-            },
-            "Driver_113": {
-                "driver_name": "Robert Taylor",
-                "backup_assignments": [
-                    {
                         "route": 2,
                         "shift_id": 15,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 43,
-                        "preference": 2
+                        "preference": 1
                     }
                 ]
             },
-            "Driver_114": {
-                "driver_name": "Maria Garcia",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 1,
-                        "preference": 3
-                    },
-                    {
-                        "route": 3,
-                        "shift_id": 30,
-                        "preference": 4
-                    }
-                ]
-            },
-            "Driver_115": {
-                "driver_name": "Thomas Moore",
+            "Driver_1004": {
+                "driver_name": "sinankaya",
                 "backup_assignments": [
                     {
                         "route": 2,
                         "shift_id": 16,
-                        "preference": 2
-                    }
-                ]
-            }
-        },
-        "Day_2": {
-            "Driver_101": {
-                "driver_name": "John Doe",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 3,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_102": {
-                "driver_name": "Jane Smith",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 4,
-                        "preference": 2
-                    },
-                    {
-                        "route": 2,
-                        "shift_id": 17,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_103": {
-                "driver_name": "Bob Johnson",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 18,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_105": {
-                "driver_name": "Charlie Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 4,
-                        "shift_id": 45,
-                        "preference": 1
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 46,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_107": {
-                "driver_name": "David Lee",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 31,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_115": {
-                "driver_name": "Thomas Moore",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 32,
-                        "preference": 2
-                    }
-                ]
-            }
-        },
-        "Day_3": {
-            "Driver_103": {
-                "driver_name": "Bob Johnson",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 19,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_105": {
-                "driver_name": "Charlie Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 6,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 47,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_106": {
-                "driver_name": "Eva Martinez",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 20,
-                        "preference": 2
-                    },
-                    {
-                        "route": 3,
-                        "shift_id": 33,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_110": {
-                "driver_name": "Lisa Anderson",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 34,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 48,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_111": {
-                "driver_name": "James Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 5,
                         "preference": 1
                     }
                 ]
             }
         },
-        "Day_4": {
-            "Driver_104": {
-                "driver_name": "Alice Brown",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 7,
-                        "preference": 2
-                    },
-                    {
-                        "route": 2,
-                        "shift_id": 22,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_107": {
-                "driver_name": "David Lee",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 21,
-                        "preference": 1
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 50,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_109": {
-                "driver_name": "Michael Chen",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 35,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 49,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_112": {
-                "driver_name": "Emily Davis",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 8,
-                        "preference": 1
-                    },
-                    {
-                        "route": 3,
-                        "shift_id": 36,
-                        "preference": 1
-                    }
-                ]
-            }
-        },
-        "Day_5": {
-            "Driver_102": {
-                "driver_name": "Jane Smith",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 9,
-                        "preference": 1
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 51,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_110": {
-                "driver_name": "Lisa Anderson",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 10,
-                        "preference": 2
-                    },
-                    {
-                        "route": 2,
-                        "shift_id": 24,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_111": {
-                "driver_name": "James Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 38,
-                        "preference": 1
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 52,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_112": {
-                "driver_name": "Emily Davis",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 23,
-                        "preference": 1
-                    },
-                    {
-                        "route": 3,
-                        "shift_id": 37,
-                        "preference": 2
-                    }
-                ]
-            }
-        },
-        "Day_6": {
-            "Driver_105": {
-                "driver_name": "Charlie Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 26,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_106": {
-                "driver_name": "Eva Martinez",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 25,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 54,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_107": {
-                "driver_name": "David Lee",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 40,
-                        "preference": 1
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 53,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_111": {
-                "driver_name": "James Wilson",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 12,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_113": {
-                "driver_name": "Robert Taylor",
-                "backup_assignments": [
-                    {
-                        "route": 1,
-                        "shift_id": 11,
-                        "preference": 1
-                    }
-                ]
-            },
-            "Driver_115": {
-                "driver_name": "Thomas Moore",
-                "backup_assignments": [
-                    {
-                        "route": 3,
-                        "shift_id": 39,
-                        "preference": 2
-                    }
-                ]
-            }
-        },
+        "Day_2": {},
+        "Day_3": {},
+        "Day_4": {},
+        "Day_5": {},
+        "Day_6": {},
         "Day_7": {
             "Driver_101": {
                 "driver_name": "John Doe",
                 "backup_assignments": [
                     {
-                        "route": 2,
-                        "shift_id": 27,
-                        "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 55,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_109": {
-                "driver_name": "Michael Chen",
-                "backup_assignments": [
-                    {
-                        "route": 2,
-                        "shift_id": 28,
-                        "preference": 2
-                    },
-                    {
-                        "route": 3,
-                        "shift_id": 41,
-                        "preference": 2
-                    }
-                ]
-            },
-            "Driver_114": {
-                "driver_name": "Maria Garcia",
-                "backup_assignments": [
-                    {
                         "route": 3,
                         "shift_id": 42,
                         "preference": 2
-                    },
-                    {
-                        "route": 4,
-                        "shift_id": 56,
-                        "preference": 3
                     }
                 ]
             },
-            "Driver_115": {
-                "driver_name": "Thomas Moore",
+            "Driver_111": {
+                "driver_name": "James Wilson",
                 "backup_assignments": [
                     {
-                        "route": 1,
-                        "shift_id": 13,
-                        "preference": 1
-                    },
-                    {
-                        "route": 1,
-                        "shift_id": 14,
-                        "preference": 1
+                        "route": 3,
+                        "shift_id": 41,
+                        "preference": 3
                     }
                 ]
             }
         }
     },
     "schedule_info": {
-        "total_drivers": 15,
-        "total_routes": 4,
+        "total_drivers": 20,
+        "total_routes": 2,
         "days_planned": 7
     }
 }
