@@ -35,17 +35,17 @@ namespace Optimisation_and_Scheduling_System.Controllers
                 return View(model);
             }
 
-            // Now create the DriverModel record, including gender
+            // Create the DriverModel record
             var driver = new DriverModel
             {
                 Name = model.Name,
-                Gender = model.Gender, // Ensure gender is passed from the view
+                Gender = model.Gender,
                 WorkerSince = DateTime.Now
 
             };
 
             // Save the DriverModel
-            using (var context = new AppDbContext()) // Assuming AppDbContext is used for database operations
+            using (var context = new AppDbContext())
             {
                 context.DriverModels.Add(driver);
                 context.SaveChanges();

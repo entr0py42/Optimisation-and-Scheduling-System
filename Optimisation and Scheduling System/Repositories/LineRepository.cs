@@ -34,13 +34,13 @@ namespace Optimisation_and_Scheduling_System.Repositories
         public void AddLine(Line line)
         {
             _context.Lines.Add(line);
-            _context.SaveChanges();  // Save the new line to the database
+            _context.SaveChanges();
         }
 
         public void DeleteLine(Line line)
         {
             _context.Lines.Remove(line);
-            _context.SaveChanges();  // Commit the deletion to the database
+            _context.SaveChanges();
         }
 
         public void AddLineShift(LineShift shift)

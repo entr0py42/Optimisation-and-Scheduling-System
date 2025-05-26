@@ -19,11 +19,9 @@ namespace Optimisation_and_Scheduling_System.Controllers
             _driverRepository = driverRepository;
         }
 
-        // Parameterless constructor for cases where DI might not work
         public DriverController()
         {
-            // This constructor can create a mock or default repository if necessary
-            _driverRepository = new DriverRepository(); // Replace with your default repo or mock
+            _driverRepository = new DriverRepository();
         }
 
         // Action to display the Driver Preferences form
@@ -53,18 +51,17 @@ namespace Optimisation_and_Scheduling_System.Controllers
         // This method fetches the driver's ID based on the logged-in user's identity
         private int GetDriverIdFromUser()
         {
-            // Assuming the username (User.Identity.Name) corresponds to the driver's name in the database
             string username = User.Identity.Name;
 
             // Retrieve the driver from the database using the username
             using (var dbContext = new AppDbContext())
             {
                 var driver = dbContext.DriverModels
-                                      .FirstOrDefault(d => d.Name == username); // Assuming 'Name' is the column holding the driver's name
+                                      .FirstOrDefault(d => d.Name == username); 
 
                 if (driver != null)
                 {
-                    return driver.Id; // Return the driver's ID
+                    return driver.Id;
                 }
 
                 // Handle the case when no driver is found, maybe throw an exception or return a default value
@@ -108,17 +105,8 @@ namespace Optimisation_and_Scheduling_System.Controllers
             return View(assignments);
         }
 
-
-
-
-
-
-
-
-        // Index action for DriverController (you can customize this action as needed)
         public ActionResult Index()
         {
-            // You can implement logic for the Driver's Dashboard or similar here
             return View();
         }
     }

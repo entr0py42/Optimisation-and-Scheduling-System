@@ -55,14 +55,14 @@ namespace Optimisation_and_Scheduling_System.Controllers
         public ActionResult GetLineById(int id)
         {
             var line = _lineRepository.GetLineById(id);
-            return View("LineDetails", line);  // You need a view named "LineDetails" to display the line details
+            return View("LineDetails", line);
         }
 
         // Action to retrieve shifts for a specific line
         public ActionResult GetLineShifts(int lineId)
         {
             var lineShifts = _lineRepository.GetLineShifts(lineId);
-            return View("LineShifts", lineShifts);  // You need a view named "LineShifts" to display the shifts
+            return View("LineShifts", lineShifts);
         }
 
 
