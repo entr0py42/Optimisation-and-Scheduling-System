@@ -102,8 +102,25 @@ namespace Optimisation_and_Scheduling_System.Controllers
 
             var assignments = _driverRepository.GetDriverScheduleAssignments(driverId);
 
-            return View(assignments);
+            // Define weekday order
+            var dayOrder = new Dictionary<string, int> {
+        {"Monday", 1},
+        {"Tuesday", 2},
+        {"Wednesday", 3},
+        {"Thursday", 4},
+        {"Friday", 5},
+        {"Saturday", 6},
+        {"Sunday", 7}
+    };
+
+            // Sort assignments by weekday order
+            var sortedAssignments = assignments
+                .OrderBy(a => dayOrder.ContainsKey(a.Day) ? dayOrder[a.Day] : 99)
+                .ToList();
+
+            return View(sortedAssignments);
         }
+
 
         public ActionResult Index()
         {

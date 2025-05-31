@@ -39,6 +39,8 @@ def save():
     """
 
     try:
+        cur.execute("DELETE FROM public.driverscheduleassignments")
+        
         # Insert regular assignments (isbackup = False)
         for day_key, routes in assignments.items():
             day = day_mapping.get(day_key, day_key)  # Default to original if no mapping
@@ -71,6 +73,3 @@ def save():
     finally:
         cur.close()
         conn.close()
-
-if __name__ == "__main__":
-    save()
